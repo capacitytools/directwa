@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +33,6 @@
         .dark .wa-gradient { background: linear-gradient(135deg, #128C7E 0%, #075E54 100%); }
         .transition-all-300 { transition: all 0.3s ease-in-out; }
         
-        /* Toast Notification */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -47,14 +46,22 @@
             left: 50%;
             bottom: 80px;
             transform: translateX(-50%);
-            font-size: 15px;            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);        }
         #toast.show {
             visibility: visible;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col transition-all-300 pb-20">
@@ -89,14 +96,14 @@
                 
                 <!-- Phone Input Section -->
                 <div class="space-y-4">
-                    <div class="flex space-x-3">
-                        <div class="w-1/3">
+                    <div class="flex space-x-3">                        <div class="w-1/3">
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Code</label>
                             <input type="text" id="countryCode" value="+1" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium text-center">
                         </div>
                         <div class="w-2/3">
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Phone Number</label>
-                            <input type="tel" id="phoneNumber" placeholder="123 456 7890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium">                        </div>
+                            <input type="tel" id="phoneNumber" placeholder="123 456 7890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium">
+                        </div>
                     </div>
 
                     <!-- Country Code Selector -->
@@ -105,26 +112,26 @@
                         <select id="countrySelect" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition text-sm">
                             <option value="">-- Select Country Code --</option>
                             <option value="+1">🇺🇸 United States (+1)</option>
-                            <option value="+1">🇨 Canada (+1)</option>
+                            <option value="+1">🇨🇦 Canada (+1)</option>
                             <option value="+7">🇷🇺 Russia (+7)</option>
-                            <option value="+20">🇪🇬 Egypt (+20)</option>
+                            <option value="+20">🇪 Egypt (+20)</option>
                             <option value="+27">🇿🇦 South Africa (+27)</option>
                             <option value="+30">🇬🇷 Greece (+30)</option>
                             <option value="+31">🇳🇱 Netherlands (+31)</option>
                             <option value="+32">🇧🇪 Belgium (+32)</option>
                             <option value="+33">🇫🇷 France (+33)</option>
                             <option value="+34">🇪🇸 Spain (+34)</option>
-                            <option value="+36">🇭🇺 Hungary (+36)</option>
+                            <option value="+36">🇭 Hungary (+36)</option>
                             <option value="+39">🇮🇹 Italy (+39)</option>
                             <option value="+40">🇷🇴 Romania (+40)</option>
                             <option value="+41">🇨🇭 Switzerland (+41)</option>
-                            <option value="+43">🇦🇹 Austria (+43)</option>
+                            <option value="+43">🇦 Austria (+43)</option>
                             <option value="+44">🇬🇧 United Kingdom (+44)</option>
                             <option value="+45">🇩🇰 Denmark (+45)</option>
                             <option value="+46">🇸🇪 Sweden (+46)</option>
                             <option value="+47">🇳🇴 Norway (+47)</option>
                             <option value="+48">🇵🇱 Poland (+48)</option>
-                            <option value="+49">🇩🇪 Germany (+49)</option>
+                            <option value="+49">🇩 Germany (+49)</option>
                             <option value="+51">🇵🇪 Peru (+51)</option>
                             <option value="+52">🇲🇽 Mexico (+52)</option>
                             <option value="+53">🇨🇺 Cuba (+53)</option>
@@ -135,66 +142,66 @@
                             <option value="+58">🇻🇪 Venezuela (+58)</option>
                             <option value="+60">🇲🇾 Malaysia (+60)</option>
                             <option value="+61">🇦🇺 Australia (+61)</option>
-                            <option value="+62">🇮🇩 Indonesia (+62)</option>
+                            <option value="+62">🇮 Indonesia (+62)</option>
                             <option value="+63">🇵🇭 Philippines (+63)</option>
                             <option value="+64">🇳🇿 New Zealand (+64)</option>
-                            <option value="+65">🇸🇬 Singapore (+65)</option>
-                            <option value="+66">🇹🇭 Thailand (+66)</option>
-                            <option value="+81">🇯🇵 Japan (+81)</option>
-                            <option value="+82">🇰🇷 South Korea (+82)</option>
+                            <option value="+65">🇸🇬 Singapore (+65)</option>                            <option value="+66">🇹🇭 Thailand (+66)</option>
+                            <option value="+81">🇯 Japan (+81)</option>
+                            <option value="+82">🇰 South Korea (+82)</option>
                             <option value="+84">🇻🇳 Vietnam (+84)</option>
                             <option value="+86">🇨🇳 China (+86)</option>
                             <option value="+90">🇹🇷 Turkey (+90)</option>
-                            <option value="+91">🇮🇳 India (+91)</option>                            <option value="+92">🇵🇰 Pakistan (+92)</option>
+                            <option value="+91">🇮🇳 India (+91)</option>
+                            <option value="+92">🇵 Pakistan (+92)</option>
                             <option value="+93">🇦🇫 Afghanistan (+93)</option>
                             <option value="+94">🇱🇰 Sri Lanka (+94)</option>
                             <option value="+95">🇲🇲 Myanmar (+95)</option>
                             <option value="+98">🇮🇷 Iran (+98)</option>
                             <option value="+212">🇲🇦 Morocco (+212)</option>
-                            <option value="+213">🇿 Algeria (+213)</option>
-                            <option value="+216">🇳 Tunisia (+216)</option>
+                            <option value="+213">🇩🇿 Algeria (+213)</option>
+                            <option value="+216">🇹🇳 Tunisia (+216)</option>
                             <option value="+218">🇱🇾 Libya (+218)</option>
                             <option value="+220">🇬🇲 Gambia (+220)</option>
-                            <option value="+221">🇸🇳 Senegal (+221)</option>
-                            <option value="+222">🇷 Mauritania (+222)</option>
-                            <option value="+223">🇲🇱 Mali (+223)</option>
+                            <option value="+221">🇸 Senegal (+221)</option>
+                            <option value="+222">🇲🇷 Mauritania (+222)</option>
+                            <option value="+223">🇲 Mali (+223)</option>
                             <option value="+224">🇬🇳 Guinea (+224)</option>
                             <option value="+225">🇨🇮 Ivory Coast (+225)</option>
-                            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+                            <option value="+226">🇧 Burkina Faso (+226)</option>
                             <option value="+227">🇳🇪 Niger (+227)</option>
                             <option value="+228">🇹🇬 Togo (+228)</option>
-                            <option value="+229">🇧🇯 Benin (+229)</option>
+                            <option value="+229">🇧 Benin (+229)</option>
                             <option value="+230">🇲🇺 Mauritius (+230)</option>
                             <option value="+231">🇱🇷 Liberia (+231)</option>
-                            <option value="+232">🇱 Sierra Leone (+232)</option>
-                            <option value="+233">🇭 Ghana (+233)</option>
+                            <option value="+232">🇸🇱 Sierra Leone (+232)</option>
+                            <option value="+233">🇬 Ghana (+233)</option>
                             <option value="+234" selected>🇳🇬 Nigeria (+234)</option>
                             <option value="+235">🇹🇩 Chad (+235)</option>
-                            <option value="+236">🇫 Central African Republic (+236)</option>
+                            <option value="+236">🇨🇫 Central African Republic (+236)</option>
                             <option value="+237">🇨🇲 Cameroon (+237)</option>
-                            <option value="+238">🇻 Cape Verde (+238)</option>
-                            <option value="+239">🇹 Sao Tome (+239)</option>
+                            <option value="+238">🇨🇻 Cape Verde (+238)</option>
+                            <option value="+239">🇸 Sao Tome (+239)</option>
                             <option value="+240">🇬🇶 Equatorial Guinea (+240)</option>
-                            <option value="+241">🇦 Gabon (+241)</option>
-                            <option value="+242">🇬 Congo (+242)</option>
+                            <option value="+241">🇬🇦 Gabon (+241)</option>
+                            <option value="+242">🇨🇬 Congo (+242)</option>
                             <option value="+243">🇨🇩 DR Congo (+243)</option>
                             <option value="+244">🇦🇴 Angola (+244)</option>
-                            <option value="+245">🇼 Guinea-Bissau (+245)</option>
+                            <option value="+245">🇬🇼 Guinea-Bissau (+245)</option>
                             <option value="+248">🇸🇨 Seychelles (+248)</option>
-                            <option value="+249">🇩 Sudan (+249)</option>
-                            <option value="+250">🇼 Rwanda (+250)</option>
-                            <option value="+251">🇹 Ethiopia (+251)</option>
+                            <option value="+249">🇸🇩 Sudan (+249)</option>
+                            <option value="+250">🇷🇼 Rwanda (+250)</option>
+                            <option value="+251">🇪🇹 Ethiopia (+251)</option>
                             <option value="+252">🇸🇴 Somalia (+252)</option>
                             <option value="+253">🇩🇯 Djibouti (+253)</option>
                             <option value="+254">🇰🇪 Kenya (+254)</option>
-                            <option value="+255">🇹🇿 Tanzania (+255)</option>
-                            <option value="+256">🇺🇬 Uganda (+256)</option>
-                            <option value="+257">🇧🇮 Burundi (+257)</option>
+                            <option value="+255">🇹🇿 Tanzania (+255)</option>                            <option value="+256">🇺 Uganda (+256)</option>
+                            <option value="+257">🇧 Burundi (+257)</option>
                             <option value="+258">🇲🇿 Mozambique (+258)</option>
                             <option value="+260">🇿🇲 Zambia (+260)</option>
-                            <option value="+261">🇲🇬 Madagascar (+261)</option>
-                            <option value="+262">🇷🇪 Reunion (+262)</option>
-                            <option value="+263">🇿🇼 Zimbabwe (+263)</option>                            <option value="+264">🇳🇦 Namibia (+264)</option>
+                            <option value="+261">🇲 Madagascar (+261)</option>
+                            <option value="+262">🇷 Reunion (+262)</option>
+                            <option value="+263">🇿🇼 Zimbabwe (+263)</option>
+                            <option value="+264">🇳🇦 Namibia (+264)</option>
                             <option value="+265">🇲🇼 Malawi (+265)</option>
                             <option value="+266">🇱🇸 Lesotho (+266)</option>
                             <option value="+267">🇧🇼 Botswana (+267)</option>
@@ -202,7 +209,7 @@
                             <option value="+269">🇰🇲 Comoros (+269)</option>
                             <option value="+290">🇸🇭 Saint Helena (+290)</option>
                             <option value="+291">🇪🇷 Eritrea (+291)</option>
-                            <option value="+297">🇼 Aruba (+297)</option>
+                            <option value="+297">🇦🇼 Aruba (+297)</option>
                             <option value="+298">🇫🇴 Faroe Islands (+298)</option>
                             <option value="+299">🇬🇱 Greenland (+299)</option>
                             <option value="+350">🇬🇮 Gibraltar (+350)</option>
@@ -210,18 +217,18 @@
                             <option value="+352">🇱🇺 Luxembourg (+352)</option>
                             <option value="+353">🇮🇪 Ireland (+353)</option>
                             <option value="+354">🇮🇸 Iceland (+354)</option>
-                            <option value="+355">🇱 Albania (+355)</option>
-                            <option value="+356">🇲🇹 Malta (+356)</option>
-                            <option value="+357">🇨🇾 Cyprus (+357)</option>
-                            <option value="+358">🇫🇮 Finland (+358)</option>
-                            <option value="+359">🇧🇬 Bulgaria (+359)</option>
+                            <option value="+355">🇦 Albania (+355)</option>
+                            <option value="+356">🇲 Malta (+356)</option>
+                            <option value="+357">🇨 Cyprus (+357)</option>
+                            <option value="+358">🇫 Finland (+358)</option>
+                            <option value="+359">🇧 Bulgaria (+359)</option>
                             <option value="+370">🇱🇹 Lithuania (+370)</option>
                             <option value="+371">🇱🇻 Latvia (+371)</option>
-                            <option value="+372">🇪🇪 Estonia (+372)</option>
-                            <option value="+373">🇲🇩 Moldova (+373)</option>
-                            <option value="+374">🇲 Armenia (+374)</option>
-                            <option value="+375">🇾 Belarus (+375)</option>
-                            <option value="+376">🇦🇩 Andorra (+376)</option>
+                            <option value="+372">🇪 Estonia (+372)</option>
+                            <option value="+373">🇲 Moldova (+373)</option>
+                            <option value="+374">🇦 Armenia (+374)</option>
+                            <option value="+375">🇧 Belarus (+375)</option>
+                            <option value="+376">🇦 Andorra (+376)</option>
                             <option value="+377">🇲🇨 Monaco (+377)</option>
                             <option value="+380">🇺🇦 Ukraine (+380)</option>
                             <option value="+381">🇷🇸 Serbia (+381)</option>
@@ -231,69 +238,69 @@
                             <option value="+386">🇸🇮 Slovenia (+386)</option>
                             <option value="+387">🇧🇦 Bosnia (+387)</option>
                             <option value="+389">🇲🇰 North Macedonia (+389)</option>
-                            <option value="+420">🇨🇿 Czech Republic (+420)</option>
-                            <option value="+421">🇸🇰 Slovakia (+421)</option>
-                            <option value="+423">🇮 Liechtenstein (+423)</option>
+                            <option value="+420">🇨 Czech Republic (+420)</option>
+                            <option value="+421">🇸 Slovakia (+421)</option>
+                            <option value="+423">🇱🇮 Liechtenstein (+423)</option>
                             <option value="+500">🇫🇰 Falkland Islands (+500)</option>
-                            <option value="+501">🇿 Belize (+501)</option>
-                            <option value="+502">🇹 Guatemala (+502)</option>
-                            <option value="+503">🇻 El Salvador (+503)</option>
+                            <option value="+501">🇧🇿 Belize (+501)</option>
+                            <option value="+502">🇬🇹 Guatemala (+502)</option>                            <option value="+503">🇸 El Salvador (+503)</option>
                             <option value="+504">🇭🇳 Honduras (+504)</option>
-                            <option value="+505">🇳 Nicaragua (+505)</option>
+                            <option value="+505">🇳🇮 Nicaragua (+505)</option>
                             <option value="+506">🇨🇷 Costa Rica (+506)</option>
-                            <option value="+507">🇦 Panama (+507)</option>
-                            <option value="+508">🇲 Saint Pierre (+508)</option>
-                            <option value="+509">🇭🇹 Haiti (+509)</option>                            <option value="+590">🇬🇵 Guadeloupe (+590)</option>
-                            <option value="+591">🇴 Bolivia (+591)</option>
-                            <option value="+592">🇾 Guyana (+592)</option>
-                            <option value="+593">🇪🇨 Ecuador (+593)</option>
+                            <option value="+507">🇵 Panama (+507)</option>
+                            <option value="+508">🇵🇲 Saint Pierre (+508)</option>
+                            <option value="+509">🇭🇹 Haiti (+509)</option>
+                            <option value="+590">🇬 Guadeloupe (+590)</option>
+                            <option value="+591">🇧🇴 Bolivia (+591)</option>
+                            <option value="+592">🇬🇾 Guyana (+592)</option>
+                            <option value="+593">🇪 Ecuador (+593)</option>
                             <option value="+594">🇬🇫 French Guiana (+594)</option>
                             <option value="+595">🇵🇾 Paraguay (+595)</option>
-                            <option value="+596">🇲🇶 Martinique (+596)</option>
-                            <option value="+597">🇸🇷 Suriname (+597)</option>
+                            <option value="+596">🇲 Martinique (+596)</option>
+                            <option value="+597">🇸 Suriname (+597)</option>
                             <option value="+598">🇺🇾 Uruguay (+598)</option>
                             <option value="+599">🇨🇼 Curacao (+599)</option>
-                            <option value="+670">🇹🇱 East Timor (+670)</option>
+                            <option value="+670">🇹 East Timor (+670)</option>
                             <option value="+672">🇦🇺 Australian External Territories (+672)</option>
                             <option value="+673">🇧🇳 Brunei (+673)</option>
                             <option value="+674">🇳🇷 Nauru (+674)</option>
                             <option value="+675">🇵🇬 Papua New Guinea (+675)</option>
                             <option value="+676">🇹🇴 Tonga (+676)</option>
-                            <option value="+677">🇸🇧 Solomon Islands (+677)</option>
-                            <option value="+678">🇺 Vanuatu (+678)</option>
+                            <option value="+677">🇸 Solomon Islands (+677)</option>
+                            <option value="+678">🇻🇺 Vanuatu (+678)</option>
                             <option value="+679">🇫🇯 Fiji (+679)</option>
                             <option value="+680">🇵🇼 Palau (+680)</option>
                             <option value="+681">🇼🇫 Wallis and Futuna (+681)</option>
                             <option value="+682">🇨🇰 Cook Islands (+682)</option>
                             <option value="+683">🇳🇺 Niue (+683)</option>
-                            <option value="+684">🇸 American Samoa (+684)</option>
+                            <option value="+684">🇦🇸 American Samoa (+684)</option>
                             <option value="+685">🇼🇸 Samoa (+685)</option>
                             <option value="+686">🇰🇮 Kiribati (+686)</option>
                             <option value="+687">🇳🇨 New Caledonia (+687)</option>
                             <option value="+688">🇹🇻 Tuvalu (+688)</option>
-                            <option value="+689">🇫 French Polynesia (+689)</option>
-                            <option value="+690">🇹 Tokelau (+690)</option>
-                            <option value="+691">🇲 Micronesia (+691)</option>
+                            <option value="+689">🇵 French Polynesia (+689)</option>
+                            <option value="+690">🇹🇰 Tokelau (+690)</option>
+                            <option value="+691">🇫🇲 Micronesia (+691)</option>
                             <option value="+692">🇲🇭 Marshall Islands (+692)</option>
-                            <option value="+850">🇰🇵 North Korea (+850)</option>
+                            <option value="+850">🇰 North Korea (+850)</option>
                             <option value="+852">🇭🇰 Hong Kong (+852)</option>
                             <option value="+853">🇲🇴 Macau (+853)</option>
-                            <option value="+855">🇰🇭 Cambodia (+855)</option>
+                            <option value="+855">🇰 Cambodia (+855)</option>
                             <option value="+856">🇱🇦 Laos (+856)</option>
-                            <option value="+880">🇩 Bangladesh (+880)</option>
-                            <option value="+886">🇼 Taiwan (+886)</option>
-                            <option value="+960">🇻 Maldives (+960)</option>
+                            <option value="+880">🇧🇩 Bangladesh (+880)</option>
+                            <option value="+886">🇹🇼 Taiwan (+886)</option>
+                            <option value="+960">🇲🇻 Maldives (+960)</option>
                             <option value="+961">🇱🇧 Lebanon (+961)</option>
                             <option value="+962">🇯🇴 Jordan (+962)</option>
-                            <option value="+963">🇸🇾 Syria (+963)</option>
-                            <option value="+964">🇮🇶 Iraq (+964)</option>
-                            <option value="+965">🇼 Kuwait (+965)</option>
-                            <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                            <option value="+963">🇸 Syria (+963)</option>                            <option value="+964">🇮 Iraq (+964)</option>
+                            <option value="+965">🇰🇼 Kuwait (+965)</option>
+                            <option value="+966">🇸 Saudi Arabia (+966)</option>
                             <option value="+967">🇾🇪 Yemen (+967)</option>
-                            <option value="+968">🇴🇲 Oman (+968)</option>
-                            <option value="+970">🇵🇸 Palestine (+970)</option>
-                            <option value="+971">🇦🇪 UAE (+971)</option>                            <option value="+972">🇮🇱 Israel (+972)</option>
-                            <option value="+973">🇭 Bahrain (+973)</option>
+                            <option value="+968">🇴 Oman (+968)</option>
+                            <option value="+970">🇵 Palestine (+970)</option>
+                            <option value="+971">🇦 UAE (+971)</option>
+                            <option value="+972">🇮🇱 Israel (+972)</option>
+                            <option value="+973">🇧 Bahrain (+973)</option>
                             <option value="+974">🇶🇦 Qatar (+974)</option>
                             <option value="+975">🇧🇹 Bhutan (+975)</option>
                             <option value="+976">🇲🇳 Mongolia (+976)</option>
@@ -334,14 +341,14 @@
                         <span>Start Chat</span>
                     </button>
                     
-                    <div class="grid grid-cols-2 gap-3">
-                        <button id="copyLinkBtn" class="px-4 py-3 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition flex items-center justify-center space-x-2">
+                    <div class="grid grid-cols-2 gap-3">                        <button id="copyLinkBtn" class="px-4 py-3 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition flex items-center justify-center space-x-2">
                             <span>📋 Copy Link</span>
                         </button>
                         <button id="generateQRBtn" class="px-4 py-3 bg-purple-500 text-white font-semibold rounded-xl hover:bg-purple-600 transition flex items-center justify-center space-x-2">
-                            <span> QR Code</span>
+                            <span>📱 QR Code</span>
                         </button>
-                    </div>                </div>
+                    </div>
+                </div>
 
                 <!-- Create Shareable Link Button -->
                 <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -367,12 +374,14 @@
 
             <!-- Shareable Link Modal -->
             <div id="shareableLinkModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full space-y-4">
+                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full space-y-4 max-h-[90vh] overflow-y-auto">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white text-center">Your Shareable Link</h3>
                     <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Copy this link and share it anywhere!</p>
                     
+                    <!-- Direct Link Section -->
                     <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-xl">
-                        <input type="text" id="shareableLinkInput" readonly class="w-full bg-transparent text-sm text-gray-800 dark:text-gray-200 outline-none text-center">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Direct Link:</p>
+                        <input type="text" id="shareableLinkInput" readonly class="w-full bg-transparent text-xs text-gray-800 dark:text-gray-200 outline-none break-all">
                     </div>
                     
                     <div class="flex space-x-3">
@@ -381,15 +390,47 @@
                         </button>
                         <button id="closeShareableLinkModal" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-3 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition">
                             Close
+                        </button>                    </div>
+                    
+                    <!-- Shrink Link Button -->
+                    <button id="shrinkLinkBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span>🔗 Shrink Link (Earn Money)</span>
+                    </button>
+                    
+                    <!-- Shortened Link Section (Hidden by default) -->
+                    <div id="shortenedLinkSection" class="hidden pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                        <div class="bg-green-50 dark:bg-green-900/20 border-2 border-green-500 p-3 rounded-xl">
+                            <p class="text-xs text-green-700 dark:text-green-400 font-bold mb-1">💰 Monetized Link:</p>
+                            <input type="text" id="shortenedLinkInput" readonly class="w-full bg-white dark:bg-gray-700 text-xs text-gray-800 dark:text-gray-200 outline-none break-all font-mono">
+                        </div>
+                        
+                        <button id="copyShortenedLinkBtn" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition">
+                            📋 Copy Shortened Link
                         </button>
+                        
+                        <div class="text-center">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Or share QR code:</p>
+                            <div id="shortenedQRCode" class="flex justify-center"></div>
+                        </div>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl">
+                            <p class="text-xs text-blue-700 dark:text-blue-400 text-center">
+                                💡 When people click this link, they'll see a quick ad and you earn money!
+                            </p>
+                        </div>
                     </div>
                     
+                    <!-- Original QR Code -->
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">Or share QR code:</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">Original QR code:</p>
                         <div id="shareableQRCode" class="flex justify-center"></div>
                     </div>
                 </div>
             </div>
+
             <!-- How It Works Section -->
             <div class="mt-12">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">How It Works</h2>
@@ -398,8 +439,7 @@
                         <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
                         <h3 class="font-bold text-gray-800 dark:text-white mb-2">Enter Number</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Type the phone number with the country code you want to message.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
+                    </div>                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
                         <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
                         <h3 class="font-bold text-gray-800 dark:text-white mb-2">Add Message</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Optionally type a message or choose from our quick templates.</p>
@@ -431,14 +471,15 @@
                         </div>
                     </div>
                     <div class="flex items-start space-x-4">
-                        <div class="text-2xl"></div>
+                        <div class="text-2xl">💰</div>
                         <div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Shareable Links</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Create custom WhatsApp links with pre-filled messages. Perfect for social media bios, websites, and email signatures.</p>
+                            <h3 class="font-bold text-gray-800 dark:text-white">Earn Money</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Create monetized shortened links and earn money every time someone clicks your shared link!</p>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- FAQ Section -->
             <div class="mt-12">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">Frequently Asked Questions</h2>
@@ -447,8 +488,7 @@
                         <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ What if I don't want to save the number?</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">That's exactly what DirectWa is for! You never have to save the number to your phone contacts to message them.</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1"> Is this tool free to use?</h3>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ Is this tool free to use?</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Yes! DirectWa is 100% free to use. We support the site with minimal, non-intrusive ads.</p>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
@@ -488,7 +528,8 @@
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12 py-6 text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>    </footer>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
+    </footer>
 
     <!-- ADSTERRA 320x50 BANNER (Sticky Bottom) -->
     <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg flex justify-center py-1">
@@ -496,8 +537,7 @@
             atOptions = {
                 'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
                 'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
+                'height' : 50,                'width' : 320,
                 'params' : {}
             };
         </script>
@@ -513,6 +553,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log("✅ App Loaded Successfully!");
+
+            // Global variable to store current URL
+            let currentWhatsAppURL = '';
 
             // --- 1. DARK MODE ---
             const darkModeBtn = document.getElementById('darkModeBtn');
@@ -538,12 +581,12 @@
                 let msg = document.getElementById('message').value;
                 return { code, phone, msg };
             }
+
             function buildURL(code, phone, msg) {
                 let url = `https://wa.me/${code}${phone}`;
                 if (msg) url += `?text=${encodeURIComponent(msg)}`;
                 return url;
             }
-
             function showToast(message) {
                 let toast = document.getElementById("toast");
                 toast.textContent = message;
@@ -586,13 +629,13 @@
                     tempInput.value = url;
                     document.body.appendChild(tempInput);
                     tempInput.select();
-                    document.execCommand('copy');                    document.body.removeChild(tempInput);
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
                     showToast('✅ Link copied!');
                 });
             });
 
-            // QR Code
-            document.getElementById('generateQRBtn').addEventListener('click', function() {
+            // QR Code            document.getElementById('generateQRBtn').addEventListener('click', function() {
                 let { code, phone, msg } = getValues();
                 if (!phone) { alert('Please enter a phone number'); return; }
                 let url = buildURL(code, phone, msg);
@@ -621,31 +664,94 @@
             document.getElementById('createShareableLinkBtn').addEventListener('click', function() {
                 let { code, phone, msg } = getValues();
                 if (!phone) { alert('Please enter a phone number'); return; }
-                let url = buildURL(code, phone, msg);
                 
-                // Set the link in the input
-                document.getElementById('shareableLinkInput').value = url;
+                currentWhatsAppURL = buildURL(code, phone, msg);
                 
-                // Generate QR code for the shareable link
+                // Set the direct link in the input
+                document.getElementById('shareableLinkInput').value = currentWhatsAppURL;
+                
+                // Generate QR code for the direct link
                 document.getElementById('shareableQRCode').innerHTML = '';
                 new QRCode(document.getElementById('shareableQRCode'), {
-                    text: url,
+                    text: currentWhatsAppURL,
                     width: 120,
                     height: 120,
                     colorDark : "#25D366",
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
-                });                
+                });
+                
                 // Show modal
                 document.getElementById('shareableLinkModal').classList.remove('hidden');
+                
+                // Reset shrink button and hide shortened section                document.getElementById('shrinkLinkBtn').classList.remove('hidden');
+                document.getElementById('shortenedLinkSection').classList.add('hidden');
+            });
+
+            // Shrink Link Button
+            document.getElementById('shrinkLinkBtn').addEventListener('click', async function() {
+                const btn = document.getElementById('shrinkLinkBtn');
+                const originalText = btn.innerHTML;
+                
+                // Show loading state
+                btn.innerHTML = '<span class="animate-pulse">⏳ Shortening...</span>';
+                btn.disabled = true;
+                
+                try {
+                    // Your ShrinkMe.io API Token
+                    const apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
+                    
+                    // Call ShrinkMe.io API
+                    const apiUrl = `https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(currentWhatsAppURL)}&format=text`;
+                    
+                    const response = await fetch(apiUrl);
+                    const shortenedURL = await response.text();
+                    
+                    if (shortenedURL && shortenedURL.includes('shrinkme.io')) {
+                        // Show shortened link section
+                        document.getElementById('shortenedLinkInput').value = shortenedURL;
+                        document.getElementById('shortenedLinkSection').classList.remove('hidden');
+                        
+                        // Generate QR for shortened link
+                        document.getElementById('shortenedQRCode').innerHTML = '';
+                        new QRCode(document.getElementById('shortenedQRCode'), {
+                            text: shortenedURL,
+                            width: 100,
+                            height: 100,
+                            colorDark : "#25D366",
+                            colorLight : "#ffffff",
+                            correctLevel : QRCode.CorrectLevel.H
+                        });
+                        
+                        // Hide shrink button
+                        btn.classList.add('hidden');
+                    } else {
+                        alert('Error: Could not shorten link. Please try again.');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error shortening URL:', error);
+                    alert('Error connecting to ShrinkMe.io. Please try again.');
+                } finally {
+                    // Restore button                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
             });
 
             // Copy Shareable Link
             document.getElementById('copyShareableLinkBtn').addEventListener('click', function() {
-                let shareableInput = document.getElementById('shareableLinkInput');
-                shareableInput.select();
+                const input = document.getElementById('shareableLinkInput');
+                input.select();
                 document.execCommand('copy');
                 showToast('✅ Link copied!');
+            });
+
+            // Copy Shortened Link
+            document.getElementById('copyShortenedLinkBtn').addEventListener('click', function() {
+                const input = document.getElementById('shortenedLinkInput');
+                input.select();
+                document.execCommand('copy');
+                showToast('✅ Shortened link copied! Share it to earn! 💰');
             });
 
             // Close Shareable Link Modal
