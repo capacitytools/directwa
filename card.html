@@ -1,33 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Card</title>
+    <meta name="theme-color" content="#25D366">
+    <title>Business Card - DirectWa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        .wa-gradient { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-gradient-to-br from-green-400 to-green-600 rounded-3xl shadow-2xl p-8 text-white text-center">
-        <div class="text-6xl mb-4">👤</div>
-        <h1 id="name" class="text-3xl font-bold mb-2">Loading...</h1>
-        <p id="phone" class="text-xl mb-6"></p>
-        
-        <a id="waBtn" href="#" class="inline-block bg-white text-green-600 font-bold py-3 px-8 rounded-xl shadow-lg">
-            💬 Chat on WhatsApp
-        </a>
+<body class="bg-gray-100 min-h-screen pb-8">
+
+    <!-- Header -->
+    <div class="wa-gradient text-white p-4 text-center font-bold text-xl shadow-lg">
+        DirectWa Business Card
+    </div>
+
+    <div class="max-w-md mx-auto px-4 py-6 space-y-6">
+
+        <!-- INSTRUCTIONS SECTION -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-2 text-sm">️</span>
+                How It Works
+            </h2>
+            
+            <div class="space-y-3 text-sm text-gray-600">
+                <div class="flex items-start">
+                    <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 text-xs font-bold">1</span>
+                    <p><strong>Create Your Card:</strong> Fill in your name, phone number, and business details on the home page</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 text-xs font-bold">2</span>
+                    <p><strong>Get Your Link:</strong> We generate a unique link and QR code for your digital business card</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 text-xs font-bold">3</span>
+                    <p><strong>Share Anywhere:</strong> Share your link on social media, email, or let people scan your QR code</p>
+                </div>
+                <div class="flex items-start">
+                    <span class="bg-green-100 text-green-700 w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 text-xs font-bold">4</span>
+                    <p><strong>Instant Chat:</strong> Anyone who clicks can instantly message you on WhatsApp without saving your number</p>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <p class="text-xs text-gray-500 text-center">                    💡 Perfect for: Freelancers, Sales Agents, Real Estate, Customer Support, and Small Businesses
+                </p>
+            </div>
+        </div>
+
+        <!-- BUSINESS CARD DISPLAY -->
+        <div id="cardContainer" class="hidden">
+            <h3 class="text-center font-bold text-gray-700 mb-3"> Scan or Click to Chat</h3>
+            
+            <!-- The Actual Business Card -->
+            <div class="wa-gradient rounded-3xl shadow-2xl p-8 text-white text-center mb-6">
+                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 text-5xl">👤</div>
+                <h1 id="cardName" class="text-3xl font-bold mb-1"></h1>
+                <p id="cardTitle" class="text-green-100 mb-2"></p>
+                <p id="cardBusiness" class="text-lg mb-4 font-semibold"></p>
+                <p id="cardPhone" class="text-sm text-green-100 mb-6"></p>
+                
+                <a id="whatsappBtn" href="#" class="inline-block bg-white text-green-600 font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-green-50 transition transform hover:scale-105">
+                    💬 Chat on WhatsApp
+                </a>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-600 mb-3 text-sm font-semibold">Scan QR Code to Save Contact</p>
+                <div id="qrCode" class="flex justify-center mb-3"></div>
+                <p class="text-xs text-gray-500">Or share this link:</p>
+                <div class="mt-2 flex space-x-2">
+                    <input type="text" id="shareLink" readonly class="flex-1 px-3 py-2 bg-gray-100 rounded-lg text-xs text-gray-700">
+                    <button onclick="copyShareLink()" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-semibold hover:bg-green-600">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ERROR/EMPTY STATE -->
+        <div id="emptyState" class="bg-white rounded-2xl shadow-lg p-8 text-center">
+            <div class="text-6xl mb-4"></div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">No Card Data Found</h3>
+            <p class="text-gray-600 mb-6">This link doesn't contain valid business card information.</p>
+            
+            <div class="bg-blue-50 rounded-xl p-4 mb-6">
+                <p class="text-sm text-blue-800 font-semibold mb-2">Want to create your own?</p>
+                <p class="text-xs text-blue-600">Go back to the home page and fill out the business card form to generate your unique card!</p>
+            </div>
+            
+            <a href="index.html" class="inline-block wa-gradient text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:opacity-90 transition">
+                ← Create My Card
+            </a>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg text-sm">
+        Link copied!
     </div>
 
     <script>
-        var hash = window.location.hash.substring(1);
+        // Function to copy share link
+        function copyShareLink() {
+            let linkInput = document.getElementById('shareLink');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            let toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
+
+        // Get card data from URL hash
+        let hash = window.location.hash.substring(1);
+        
         if (hash) {
             try {
-                var data = JSON.parse(atob(hash));
-                document.getElementById('name').textContent = data.name;
-                document.getElementById('phone').textContent = '+' + data.phone;
-                document.getElementById('waBtn').href = 'https://wa.me/' + data.phone;
-            } catch(e) {
-                document.getElementById('name').textContent = 'Invalid Card';
+                let cardData = JSON.parse(atob(hash));
+                
+                // Validate required fields
+                if (cardData.name && cardData.phone) {
+                    // Hide empty state, show card
+                    document.getElementById('emptyState').classList.add('hidden');
+                    document.getElementById('cardContainer').classList.remove('hidden');
+                    
+                    // Populate card
+                    document.getElementById('cardName').textContent = cardData.name;
+                    document.getElementById('cardTitle').textContent = cardData.title || '';
+                    document.getElementById('cardBusiness').textContent = cardData.business || '';
+                    document.getElementById('cardPhone').textContent = '+' + cardData.phone;
+                    
+                    // WhatsApp button link
+                    let waMessage = `Hi ${cardData.name}, I found your business card!`;
+                    let waURL = `https://wa.me/${cardData.phone}?text=${encodeURIComponent(waMessage)}`;
+                    document.getElementById('whatsappBtn').href = waURL;
+                    
+                    // Generate QR code
+                    new QRCode(document.getElementById('qrCode'), {
+                        text: window.location.href,
+                        width: 150,
+                        height: 150,                        colorDark: '#25D366',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    
+                    // Set share link
+                    document.getElementById('shareLink').value = window.location.href;
+                    
+                    // Update page title
+                    document.title = `${cardData.name} - Business Card`;
+                } else {
+                    // Invalid data
+                    document.getElementById('cardContainer').classList.add('hidden');
+                    document.getElementById('emptyState').classList.remove('hidden');
+                }
+                
+            } catch (e) {
+                console.error('Error parsing card data:', e);
+                document.getElementById('cardContainer').classList.add('hidden');
+                document.getElementById('emptyState').classList.remove('hidden');
             }
+        } else {
+            // No hash in URL
+            document.getElementById('cardContainer').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
         }
     </script>
 </body>
