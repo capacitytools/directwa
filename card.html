@@ -1,92 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#25D366">
-    <title>Business Card - DirectWa</title>
+    <title>Business Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        .wa-gradient { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
-    </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full">
-        <!-- Business Card -->
-        <div class="wa-gradient rounded-3xl shadow-2xl p-8 text-white text-center mb-6">
-            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 text-5xl">👤</div>
-            <h1 id="cardName" class="text-3xl font-bold mb-1"></h1>
-            <p id="cardTitle" class="text-green-100 mb-4"></p>
-            <p id="cardBusiness" class="text-lg mb-6"></p>
-            
-            <a id="whatsappBtn" href="#" class="inline-block bg-white text-green-600 font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-green-50 transition transform hover:scale-105">
-                💬 Chat on WhatsApp
-            </a>
+    <div class="max-w-md w-full bg-gradient-to-br from-green-400 to-green-600 rounded-3xl shadow-2xl p-8 text-white text-center">
+        <div class="text-6xl mb-4">👤</div>
+        <h1 id="name" class="text-3xl font-bold mb-2">Loading...</h1>
+        <p id="phone" class="text-xl mb-6"></p>
+        
+        <a id="waBtn" href="#" class="inline-block bg-white text-green-600 font-bold py-3 px-8 rounded-xl shadow-lg">
+            💬 Chat on WhatsApp
+        </a>
+        
+        <div class="mt-6 pt-6 border-t border-white/30">
+            <p class="text-sm text-green-100">Powered by DirectWa</p>
         </div>
-
-        <!-- Contact Info -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 space-y-3">
-            <div class="flex items-center space-x-3 text-gray-700">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                <span id="cardPhone" class="font-medium"></span>
-            </div>
-            <div id="emailRow" class="flex items-center space-x-3 text-gray-700">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <span id="cardEmail" class="font-medium"></span>
-            </div>
-        </div>
-
-        <!-- QR Code -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 mt-6 text-center">
-            <p class="text-gray-600 mb-3 text-sm">Scan to save contact</p>
-            <div id="qrCode" class="flex justify-center"></div>
-        </div>
-
-        <!-- Footer -->
-        <p class="text-center text-gray-500 text-xs mt-6">Powered by DirectWa</p>
     </div>
 
     <script>
-        // Get card data from URL hash
-        let hash = window.location.hash.substring(1);
+        // Get data from URL
+        var hash = window.location.hash.substring(1);
         if (hash) {
             try {
-                let cardData = JSON.parse(atob(hash));
+                var data = JSON.parse(atob(hash));
+                document.getElementById('name').textContent = data.name;
+                document.getElementById('phone').textContent = '+' + data.phone;
                 
-                document.getElementById('cardName').textContent = cardData.name;
-                document.getElementById('cardTitle').textContent = cardData.title || '';
-                document.getElementById('cardBusiness').textContent = cardData.business || '';
-                document.getElementById('cardPhone').textContent = '+' + cardData.phone;
-                
-                if (cardData.email) {
-                    document.getElementById('cardEmail').textContent = cardData.email;
-                } else {
-                    document.getElementById('emailRow').style.display = 'none';
-                }
-                
-                // WhatsApp button link
-                let waURL = `https://wa.me/${cardData.phone}?text=Hi ${cardData.name}, I saved your contact from your business card!`;
-                document.getElementById('whatsappBtn').href = waURL;
-                
-                // Generate QR code
-                new QRCode(document.getElementById('qrCode'), {
-                    text: window.location.href,
-                    width: 150,
-                    height: 150,
-                    colorDark: '#25D366',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                
-                // Update page title
-                document.title = `${cardData.name} - Business Card`;
-                
-            } catch (e) {
-                document.body.innerHTML = '<div class="text-center text-gray-600 mt-20"><h1 class="text-2xl font-bold mb-4">Invalid Card</h1><p>This business card link is invalid or expired.</p></div>';
+                var waURL = 'https://wa.me/' + data.phone + '?text=Hi ' + data.name;
+                document.getElementById('waBtn').href = waURL;
+            } catch(e) {
+                document.getElementById('name').textContent = 'Invalid Card';
             }
         } else {
-            document.body.innerHTML = '<div class="text-center text-gray-600 mt-20"><h1 class="text-2xl font-bold mb-4">No Card Data</h1><p>Please use a valid business card link.</p></div>';
+            document.getElementById('name').textContent = 'No Data';
+            document.getElementById('phone').textContent = 'Please use a valid card link';
         }
     </script>
 </body>
