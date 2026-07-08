@@ -15,29 +15,19 @@
         <a id="waBtn" href="#" class="inline-block bg-white text-green-600 font-bold py-3 px-8 rounded-xl shadow-lg">
             💬 Chat on WhatsApp
         </a>
-        
-        <div class="mt-6 pt-6 border-t border-white/30">
-            <p class="text-sm text-green-100">Powered by DirectWa</p>
-        </div>
     </div>
 
     <script>
-        // Get data from URL
         var hash = window.location.hash.substring(1);
         if (hash) {
             try {
                 var data = JSON.parse(atob(hash));
                 document.getElementById('name').textContent = data.name;
                 document.getElementById('phone').textContent = '+' + data.phone;
-                
-                var waURL = 'https://wa.me/' + data.phone + '?text=Hi ' + data.name;
-                document.getElementById('waBtn').href = waURL;
+                document.getElementById('waBtn').href = 'https://wa.me/' + data.phone;
             } catch(e) {
                 document.getElementById('name').textContent = 'Invalid Card';
             }
-        } else {
-            document.getElementById('name').textContent = 'No Data';
-            document.getElementById('phone').textContent = 'Please use a valid card link';
         }
     </script>
 </body>
