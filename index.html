@@ -1,38 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#25D366">
-    <meta name="description" content="Send WhatsApp messages without saving numbers. Free, fast & secure WhatsApp direct message tool.">
-    <title>DirectWa - WhatsApp Direct Message Tool</title>
-    
-    <!-- Tailwind CSS -->
+    <title>DirectWa - WhatsApp Direct Message</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
-    <!-- Tailwind Config for Dark Mode -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'wa-green': '#25D366',
-                        'wa-dark': '#128C7E',
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
-        .wa-gradient { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
-        .dark .wa-gradient { background: linear-gradient(135deg, #128C7E 0%, #075E54 100%); }
-        .transition-all-300 { transition: all 0.3s ease-in-out; }
-        
+        .wa-green { background-color: #25D366; }
+        .wa-green:hover { background-color: #128C7E; }
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -47,735 +24,319 @@
             bottom: 80px;
             transform: translateX(-50%);
             font-size: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);        }
+        }
         #toast.show {
             visibility: visible;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-        
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; }
-        }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col transition-all-300 pb-20">
+<body class="bg-gray-50 min-h-screen pb-20">
 
-    <!-- Top Navigation -->
-    <nav class="wa-gradient shadow-lg sticky top-0 z-40">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                    <span class="text-green-600 font-extrabold text-lg">DW</span>
-                </div>
-                <span class="text-white font-bold text-xl">DirectWa</span>
-            </div>
-            <button id="darkModeBtn" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-white text-lg">
-                🌙
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="flex-grow px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            
-            <!-- Hero Section -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Message Without Saving</h1>
-                <p class="text-gray-600 dark:text-gray-300">Send WhatsApp messages instantly without adding contacts to your phone.</p>
-            </div>
-
-            <!-- Main Form Card -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 md:p-8 space-y-6 transition-all-300">
-                
-                <!-- Phone Input Section -->
-                <div class="space-y-4">
-                    <div class="flex space-x-3">                        <div class="w-1/3">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Code</label>
-                            <input type="text" id="countryCode" value="+1" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium text-center">
-                        </div>
-                        <div class="w-2/3">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Phone Number</label>
-                            <input type="tel" id="phoneNumber" placeholder="123 456 7890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium">
-                        </div>
-                    </div>
-
-                    <!-- Country Code Selector -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Or Select Country:</label>
-                        <select id="countrySelect" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition text-sm">
-                            <option value="">-- Select Country Code --</option>
-                            <option value="+1">🇺🇸 United States (+1)</option>
-                            <option value="+1">🇨🇦 Canada (+1)</option>
-                            <option value="+7">🇷🇺 Russia (+7)</option>
-                            <option value="+20">🇪 Egypt (+20)</option>
-                            <option value="+27">🇿🇦 South Africa (+27)</option>
-                            <option value="+30">🇬🇷 Greece (+30)</option>
-                            <option value="+31">🇳🇱 Netherlands (+31)</option>
-                            <option value="+32">🇧🇪 Belgium (+32)</option>
-                            <option value="+33">🇫🇷 France (+33)</option>
-                            <option value="+34">🇪🇸 Spain (+34)</option>
-                            <option value="+36">🇭 Hungary (+36)</option>
-                            <option value="+39">🇮🇹 Italy (+39)</option>
-                            <option value="+40">🇷🇴 Romania (+40)</option>
-                            <option value="+41">🇨🇭 Switzerland (+41)</option>
-                            <option value="+43">🇦 Austria (+43)</option>
-                            <option value="+44">🇬🇧 United Kingdom (+44)</option>
-                            <option value="+45">🇩🇰 Denmark (+45)</option>
-                            <option value="+46">🇸🇪 Sweden (+46)</option>
-                            <option value="+47">🇳🇴 Norway (+47)</option>
-                            <option value="+48">🇵🇱 Poland (+48)</option>
-                            <option value="+49">🇩 Germany (+49)</option>
-                            <option value="+51">🇵🇪 Peru (+51)</option>
-                            <option value="+52">🇲🇽 Mexico (+52)</option>
-                            <option value="+53">🇨🇺 Cuba (+53)</option>
-                            <option value="+54">🇦🇷 Argentina (+54)</option>
-                            <option value="+55">🇧🇷 Brazil (+55)</option>
-                            <option value="+56">🇨🇱 Chile (+56)</option>
-                            <option value="+57">🇨🇴 Colombia (+57)</option>
-                            <option value="+58">🇻🇪 Venezuela (+58)</option>
-                            <option value="+60">🇲🇾 Malaysia (+60)</option>
-                            <option value="+61">🇦🇺 Australia (+61)</option>
-                            <option value="+62">🇮 Indonesia (+62)</option>
-                            <option value="+63">🇵🇭 Philippines (+63)</option>
-                            <option value="+64">🇳🇿 New Zealand (+64)</option>
-                            <option value="+65">🇸🇬 Singapore (+65)</option>                            <option value="+66">🇹🇭 Thailand (+66)</option>
-                            <option value="+81">🇯 Japan (+81)</option>
-                            <option value="+82">🇰 South Korea (+82)</option>
-                            <option value="+84">🇻🇳 Vietnam (+84)</option>
-                            <option value="+86">🇨🇳 China (+86)</option>
-                            <option value="+90">🇹🇷 Turkey (+90)</option>
-                            <option value="+91">🇮🇳 India (+91)</option>
-                            <option value="+92">🇵 Pakistan (+92)</option>
-                            <option value="+93">🇦🇫 Afghanistan (+93)</option>
-                            <option value="+94">🇱🇰 Sri Lanka (+94)</option>
-                            <option value="+95">🇲🇲 Myanmar (+95)</option>
-                            <option value="+98">🇮🇷 Iran (+98)</option>
-                            <option value="+212">🇲🇦 Morocco (+212)</option>
-                            <option value="+213">🇩🇿 Algeria (+213)</option>
-                            <option value="+216">🇹🇳 Tunisia (+216)</option>
-                            <option value="+218">🇱🇾 Libya (+218)</option>
-                            <option value="+220">🇬🇲 Gambia (+220)</option>
-                            <option value="+221">🇸 Senegal (+221)</option>
-                            <option value="+222">🇲🇷 Mauritania (+222)</option>
-                            <option value="+223">🇲 Mali (+223)</option>
-                            <option value="+224">🇬🇳 Guinea (+224)</option>
-                            <option value="+225">🇨🇮 Ivory Coast (+225)</option>
-                            <option value="+226">🇧 Burkina Faso (+226)</option>
-                            <option value="+227">🇳🇪 Niger (+227)</option>
-                            <option value="+228">🇹🇬 Togo (+228)</option>
-                            <option value="+229">🇧 Benin (+229)</option>
-                            <option value="+230">🇲🇺 Mauritius (+230)</option>
-                            <option value="+231">🇱🇷 Liberia (+231)</option>
-                            <option value="+232">🇸🇱 Sierra Leone (+232)</option>
-                            <option value="+233">🇬 Ghana (+233)</option>
-                            <option value="+234" selected>🇳🇬 Nigeria (+234)</option>
-                            <option value="+235">🇹🇩 Chad (+235)</option>
-                            <option value="+236">🇨🇫 Central African Republic (+236)</option>
-                            <option value="+237">🇨🇲 Cameroon (+237)</option>
-                            <option value="+238">🇨🇻 Cape Verde (+238)</option>
-                            <option value="+239">🇸 Sao Tome (+239)</option>
-                            <option value="+240">🇬🇶 Equatorial Guinea (+240)</option>
-                            <option value="+241">🇬🇦 Gabon (+241)</option>
-                            <option value="+242">🇨🇬 Congo (+242)</option>
-                            <option value="+243">🇨🇩 DR Congo (+243)</option>
-                            <option value="+244">🇦🇴 Angola (+244)</option>
-                            <option value="+245">🇬🇼 Guinea-Bissau (+245)</option>
-                            <option value="+248">🇸🇨 Seychelles (+248)</option>
-                            <option value="+249">🇸🇩 Sudan (+249)</option>
-                            <option value="+250">🇷🇼 Rwanda (+250)</option>
-                            <option value="+251">🇪🇹 Ethiopia (+251)</option>
-                            <option value="+252">🇸🇴 Somalia (+252)</option>
-                            <option value="+253">🇩🇯 Djibouti (+253)</option>
-                            <option value="+254">🇰🇪 Kenya (+254)</option>
-                            <option value="+255">🇹🇿 Tanzania (+255)</option>                            <option value="+256">🇺 Uganda (+256)</option>
-                            <option value="+257">🇧 Burundi (+257)</option>
-                            <option value="+258">🇲🇿 Mozambique (+258)</option>
-                            <option value="+260">🇿🇲 Zambia (+260)</option>
-                            <option value="+261">🇲 Madagascar (+261)</option>
-                            <option value="+262">🇷 Reunion (+262)</option>
-                            <option value="+263">🇿🇼 Zimbabwe (+263)</option>
-                            <option value="+264">🇳🇦 Namibia (+264)</option>
-                            <option value="+265">🇲🇼 Malawi (+265)</option>
-                            <option value="+266">🇱🇸 Lesotho (+266)</option>
-                            <option value="+267">🇧🇼 Botswana (+267)</option>
-                            <option value="+268">🇸🇿 Swaziland (+268)</option>
-                            <option value="+269">🇰🇲 Comoros (+269)</option>
-                            <option value="+290">🇸🇭 Saint Helena (+290)</option>
-                            <option value="+291">🇪🇷 Eritrea (+291)</option>
-                            <option value="+297">🇦🇼 Aruba (+297)</option>
-                            <option value="+298">🇫🇴 Faroe Islands (+298)</option>
-                            <option value="+299">🇬🇱 Greenland (+299)</option>
-                            <option value="+350">🇬🇮 Gibraltar (+350)</option>
-                            <option value="+351">🇵🇹 Portugal (+351)</option>
-                            <option value="+352">🇱🇺 Luxembourg (+352)</option>
-                            <option value="+353">🇮🇪 Ireland (+353)</option>
-                            <option value="+354">🇮🇸 Iceland (+354)</option>
-                            <option value="+355">🇦 Albania (+355)</option>
-                            <option value="+356">🇲 Malta (+356)</option>
-                            <option value="+357">🇨 Cyprus (+357)</option>
-                            <option value="+358">🇫 Finland (+358)</option>
-                            <option value="+359">🇧 Bulgaria (+359)</option>
-                            <option value="+370">🇱🇹 Lithuania (+370)</option>
-                            <option value="+371">🇱🇻 Latvia (+371)</option>
-                            <option value="+372">🇪 Estonia (+372)</option>
-                            <option value="+373">🇲 Moldova (+373)</option>
-                            <option value="+374">🇦 Armenia (+374)</option>
-                            <option value="+375">🇧 Belarus (+375)</option>
-                            <option value="+376">🇦 Andorra (+376)</option>
-                            <option value="+377">🇲🇨 Monaco (+377)</option>
-                            <option value="+380">🇺🇦 Ukraine (+380)</option>
-                            <option value="+381">🇷🇸 Serbia (+381)</option>
-                            <option value="+382">🇲🇪 Montenegro (+382)</option>
-                            <option value="+383">🇽🇰 Kosovo (+383)</option>
-                            <option value="+385">🇭🇷 Croatia (+385)</option>
-                            <option value="+386">🇸🇮 Slovenia (+386)</option>
-                            <option value="+387">🇧🇦 Bosnia (+387)</option>
-                            <option value="+389">🇲🇰 North Macedonia (+389)</option>
-                            <option value="+420">🇨 Czech Republic (+420)</option>
-                            <option value="+421">🇸 Slovakia (+421)</option>
-                            <option value="+423">🇱🇮 Liechtenstein (+423)</option>
-                            <option value="+500">🇫🇰 Falkland Islands (+500)</option>
-                            <option value="+501">🇧🇿 Belize (+501)</option>
-                            <option value="+502">🇬🇹 Guatemala (+502)</option>                            <option value="+503">🇸 El Salvador (+503)</option>
-                            <option value="+504">🇭🇳 Honduras (+504)</option>
-                            <option value="+505">🇳🇮 Nicaragua (+505)</option>
-                            <option value="+506">🇨🇷 Costa Rica (+506)</option>
-                            <option value="+507">🇵 Panama (+507)</option>
-                            <option value="+508">🇵🇲 Saint Pierre (+508)</option>
-                            <option value="+509">🇭🇹 Haiti (+509)</option>
-                            <option value="+590">🇬 Guadeloupe (+590)</option>
-                            <option value="+591">🇧🇴 Bolivia (+591)</option>
-                            <option value="+592">🇬🇾 Guyana (+592)</option>
-                            <option value="+593">🇪 Ecuador (+593)</option>
-                            <option value="+594">🇬🇫 French Guiana (+594)</option>
-                            <option value="+595">🇵🇾 Paraguay (+595)</option>
-                            <option value="+596">🇲 Martinique (+596)</option>
-                            <option value="+597">🇸 Suriname (+597)</option>
-                            <option value="+598">🇺🇾 Uruguay (+598)</option>
-                            <option value="+599">🇨🇼 Curacao (+599)</option>
-                            <option value="+670">🇹 East Timor (+670)</option>
-                            <option value="+672">🇦🇺 Australian External Territories (+672)</option>
-                            <option value="+673">🇧🇳 Brunei (+673)</option>
-                            <option value="+674">🇳🇷 Nauru (+674)</option>
-                            <option value="+675">🇵🇬 Papua New Guinea (+675)</option>
-                            <option value="+676">🇹🇴 Tonga (+676)</option>
-                            <option value="+677">🇸 Solomon Islands (+677)</option>
-                            <option value="+678">🇻🇺 Vanuatu (+678)</option>
-                            <option value="+679">🇫🇯 Fiji (+679)</option>
-                            <option value="+680">🇵🇼 Palau (+680)</option>
-                            <option value="+681">🇼🇫 Wallis and Futuna (+681)</option>
-                            <option value="+682">🇨🇰 Cook Islands (+682)</option>
-                            <option value="+683">🇳🇺 Niue (+683)</option>
-                            <option value="+684">🇦🇸 American Samoa (+684)</option>
-                            <option value="+685">🇼🇸 Samoa (+685)</option>
-                            <option value="+686">🇰🇮 Kiribati (+686)</option>
-                            <option value="+687">🇳🇨 New Caledonia (+687)</option>
-                            <option value="+688">🇹🇻 Tuvalu (+688)</option>
-                            <option value="+689">🇵 French Polynesia (+689)</option>
-                            <option value="+690">🇹🇰 Tokelau (+690)</option>
-                            <option value="+691">🇫🇲 Micronesia (+691)</option>
-                            <option value="+692">🇲🇭 Marshall Islands (+692)</option>
-                            <option value="+850">🇰 North Korea (+850)</option>
-                            <option value="+852">🇭🇰 Hong Kong (+852)</option>
-                            <option value="+853">🇲🇴 Macau (+853)</option>
-                            <option value="+855">🇰 Cambodia (+855)</option>
-                            <option value="+856">🇱🇦 Laos (+856)</option>
-                            <option value="+880">🇧🇩 Bangladesh (+880)</option>
-                            <option value="+886">🇹🇼 Taiwan (+886)</option>
-                            <option value="+960">🇲🇻 Maldives (+960)</option>
-                            <option value="+961">🇱🇧 Lebanon (+961)</option>
-                            <option value="+962">🇯🇴 Jordan (+962)</option>
-                            <option value="+963">🇸 Syria (+963)</option>                            <option value="+964">🇮 Iraq (+964)</option>
-                            <option value="+965">🇰🇼 Kuwait (+965)</option>
-                            <option value="+966">🇸 Saudi Arabia (+966)</option>
-                            <option value="+967">🇾🇪 Yemen (+967)</option>
-                            <option value="+968">🇴 Oman (+968)</option>
-                            <option value="+970">🇵 Palestine (+970)</option>
-                            <option value="+971">🇦 UAE (+971)</option>
-                            <option value="+972">🇮🇱 Israel (+972)</option>
-                            <option value="+973">🇧 Bahrain (+973)</option>
-                            <option value="+974">🇶🇦 Qatar (+974)</option>
-                            <option value="+975">🇧🇹 Bhutan (+975)</option>
-                            <option value="+976">🇲🇳 Mongolia (+976)</option>
-                            <option value="+977">🇳🇵 Nepal (+977)</option>
-                            <option value="+992">🇹🇯 Tajikistan (+992)</option>
-                            <option value="+993">🇹🇲 Turkmenistan (+993)</option>
-                            <option value="+994">🇦🇿 Azerbaijan (+994)</option>
-                            <option value="+995">🇬🇪 Georgia (+995)</option>
-                            <option value="+996">🇰🇬 Kyrgyzstan (+996)</option>
-                            <option value="+998">🇺🇿 Uzbekistan (+998)</option>
-                        </select>
-                    </div>
-
-                    <!-- Message Input -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Message (Optional)</label>
-                        <textarea id="message" rows="2" placeholder="Hi, I'm contacting you about..." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition resize-none"></textarea>
-                    </div>
-
-                    <!-- Message Templates -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Quick Templates</label>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="template-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition" data-text="Hi, I am interested in your product">Interested</button>
-                            <button class="template-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition" data-text="Is this still available?">Availability</button>
-                            <button class="template-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition" data-text="Hello, I would like to know more">More Info</button>
-                            <button class="template-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition" data-text="">Clear</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button id="startChatBtn" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all active:scale-95 flex items-center justify-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                        </svg>
-                        <span>Start Chat</span>
-                    </button>
-                    
-                    <div class="grid grid-cols-2 gap-3">                        <button id="copyLinkBtn" class="px-4 py-3 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition flex items-center justify-center space-x-2">
-                            <span>📋 Copy Link</span>
-                        </button>
-                        <button id="generateQRBtn" class="px-4 py-3 bg-purple-500 text-white font-semibold rounded-xl hover:bg-purple-600 transition flex items-center justify-center space-x-2">
-                            <span>📱 QR Code</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Create Shareable Link Button -->
-                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <button id="createShareableLinkBtn" class="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-90 transition flex items-center justify-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                        <span>Create Shareable Link</span>
-                    </button>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">Generate a link you can share on social media, email, or websites</p>
-                </div>
-            </div>
-
-            <!-- QR Code Modal -->
-            <div id="qr-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full text-center space-y-4">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white">Scan to Chat</h3>
-                    <div id="qrcode" class="flex justify-center bg-white p-4 rounded-xl"></div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Scan this QR code to open WhatsApp chat</p>
-                    <button id="closeQRBtn" class="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition">Close</button>
-                </div>
-            </div>
-
-            <!-- Shareable Link Modal -->
-            <div id="shareableLinkModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full space-y-4 max-h-[90vh] overflow-y-auto">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white text-center">Your Shareable Link</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Copy this link and share it anywhere!</p>
-                    
-                    <!-- Direct Link Section -->
-                    <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-xl">
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Direct Link:</p>
-                        <input type="text" id="shareableLinkInput" readonly class="w-full bg-transparent text-xs text-gray-800 dark:text-gray-200 outline-none break-all">
-                    </div>
-                    
-                    <div class="flex space-x-3">
-                        <button id="copyShareableLinkBtn" class="flex-1 bg-green-500 text-white font-semibold py-3 rounded-xl hover:bg-green-600 transition">
-                            📋 Copy Link
-                        </button>
-                        <button id="closeShareableLinkModal" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-3 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                            Close
-                        </button>                    </div>
-                    
-                    <!-- Shrink Link Button -->
-                    <button id="shrinkLinkBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition flex items-center justify-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                        <span>🔗 Shrink Link (Earn Money)</span>
-                    </button>
-                    
-                    <!-- Shortened Link Section (Hidden by default) -->
-                    <div id="shortenedLinkSection" class="hidden pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
-                        <div class="bg-green-50 dark:bg-green-900/20 border-2 border-green-500 p-3 rounded-xl">
-                            <p class="text-xs text-green-700 dark:text-green-400 font-bold mb-1">💰 Monetized Link:</p>
-                            <input type="text" id="shortenedLinkInput" readonly class="w-full bg-white dark:bg-gray-700 text-xs text-gray-800 dark:text-gray-200 outline-none break-all font-mono">
-                        </div>
-                        
-                        <button id="copyShortenedLinkBtn" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition">
-                            📋 Copy Shortened Link
-                        </button>
-                        
-                        <div class="text-center">
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Or share QR code:</p>
-                            <div id="shortenedQRCode" class="flex justify-center"></div>
-                        </div>
-                        
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl">
-                            <p class="text-xs text-blue-700 dark:text-blue-400 text-center">
-                                💡 When people click this link, they'll see a quick ad and you earn money!
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Original QR Code -->
-                    <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">Original QR code:</p>
-                        <div id="shareableQRCode" class="flex justify-center"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- How It Works Section -->
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">How It Works</h2>
-                <div class="grid md:grid-cols-3 gap-4">
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
-                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
-                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Enter Number</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Type the phone number with the country code you want to message.</p>
-                    </div>                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
-                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
-                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Add Message</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Optionally type a message or choose from our quick templates.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md text-center">
-                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
-                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Start Chat</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Click the button and WhatsApp will open instantly. No saving required!</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Why Use DirectWa Section -->
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">Why Use DirectWa?</h2>
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-4">
-                    <div class="flex items-start space-x-4">
-                        <div class="text-2xl">🔒</div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Protect Your Privacy</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Keep your contacts list clean. Message delivery drivers, marketplace sellers, or one-time contacts without cluttering your phone book.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="text-2xl">⚡</div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Save Time</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Stop the annoying process of saving a number, opening WhatsApp, messaging, and then deleting the contact. Do it in one click.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="text-2xl">💰</div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 dark:text-white">Earn Money</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Create monetized shortened links and earn money every time someone clicks your shared link!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Section -->
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">Frequently Asked Questions</h2>
-                <div class="space-y-3">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ What if I don't want to save the number?</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">That's exactly what DirectWa is for! You never have to save the number to your phone contacts to message them.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ Is this tool free to use?</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Yes! DirectWa is 100% free to use. We support the site with minimal, non-intrusive ads.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ What if the number is incorrect?</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">WhatsApp will show an error message saying the number is not registered. Just double-check the country code and digits.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-                        <h3 class="font-bold text-gray-800 dark:text-white text-sm mb-1">❓ Does it work on iPhone and Android?</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Absolutely. DirectWa works on any device with a web browser and the WhatsApp app installed.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ADSTERRA NATIVE BANNER -->
-            <div class="mt-8 flex justify-center">
-                <div id="container-31f16fc7913263f00e93a85356f6e7d6"></div>
-            </div>
-
-            <!-- ADSTERRA 300x250 BANNER -->
-            <div class="mt-6 flex justify-center">
-                <div class="bg-white dark:bg-gray-800 p-2 rounded-2xl shadow-sm">
-                    <script>
-                        atOptions = {
-                            'key' : '265a3e3f0e948dc63fad891d2f0216ac',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/265a3e3f0e948dc63fad891d2f0216ac/invoke.js"></script>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12 py-6 text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
-    </footer>
-
-    <!-- ADSTERRA 320x50 BANNER (Sticky Bottom) -->
-    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg flex justify-center py-1">
-        <script>
-            atOptions = {
-                'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
-                'format' : 'iframe',
-                'height' : 50,                'width' : 320,
-                'params' : {}
-            };
-        </script>
-        <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
+    <!-- Header -->
+    <div class="wa-green text-white p-4 text-center font-bold text-xl shadow-lg">
+        DirectWa
     </div>
 
-    <!-- Toast Notification Element -->
-    <div id="toast">Message copied!</div>
-
-    <!-- ========================================== -->
-    <!-- MAIN APPLICATION JAVASCRIPT                -->
-    <!-- ========================================== -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("✅ App Loaded Successfully!");
-
-            // Global variable to store current URL
-            let currentWhatsAppURL = '';
-
-            // --- 1. DARK MODE ---
-            const darkModeBtn = document.getElementById('darkModeBtn');
-            if (localStorage.theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                darkModeBtn.textContent = '☀️';
-            }
-            darkModeBtn.addEventListener('click', function() {
-                document.documentElement.classList.toggle('dark');
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.theme = 'dark';
-                    darkModeBtn.textContent = '☀️';
-                } else {
-                    localStorage.theme = 'light';
-                    darkModeBtn.textContent = '🌙';
-                }
-            });
-
-            // --- 2. HELPER FUNCTIONS ---
-            function getValues() {
-                let code = document.getElementById('countryCode').value.replace(/\D/g, '');
-                let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
-                let msg = document.getElementById('message').value;
-                return { code, phone, msg };
-            }
-
-            function buildURL(code, phone, msg) {
-                let url = `https://wa.me/${code}${phone}`;
-                if (msg) url += `?text=${encodeURIComponent(msg)}`;
-                return url;
-            }
-            function showToast(message) {
-                let toast = document.getElementById("toast");
-                toast.textContent = message;
-                toast.className = "show";
-                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-            }
-
-            // --- 3. COUNTRY CODE SELECTOR ---
-            const countrySelect = document.getElementById('countrySelect');
-            const countryCodeInput = document.getElementById('countryCode');
-
-            if (countrySelect && countryCodeInput) {
-                countrySelect.addEventListener('change', function() {
-                    if (this.value) {
-                        countryCodeInput.value = this.value;
-                        showToast('Country code updated!');
-                    }
-                });
-            }
-
-            // --- 4. BUTTON ACTIONS ---
+    <!-- Main Form -->
+    <div class="max-w-md mx-auto p-4 mt-4 space-y-4">
+        
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h2 class="text-lg font-bold text-center mb-4">Send WhatsApp Message</h2>
             
-            // Start Chat
-            document.getElementById('startChatBtn').addEventListener('click', function() {
-                let { code, phone, msg } = getValues();
-                if (!phone) { alert('Please enter a phone number'); return; }
-                window.open(buildURL(code, phone, msg), '_blank');
-            });
+            <!-- Country Code -->
+            <div class="mb-3">                <label class="block text-sm font-semibold mb-1">Country Code</label>
+                <input type="text" id="code" value="+234" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center font-bold">
+            </div>
+            
+            <!-- Country Selector -->
+            <div class="mb-3">
+                <label class="block text-sm font-semibold mb-1">Or Select Country:</label>
+                <select id="countrySelect" onchange="updateCountryCode()" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                    <option value="">-- Select --</option>
+                    <option value="+1">🇺 USA (+1)</option>
+                    <option value="+44">🇬🇧 UK (+44)</option>
+                    <option value="+234" selected>🇳 Nigeria (+234)</option>
+                    <option value="+91">🇮 India (+91)</option>
+                    <option value="+254">🇰🇪 Kenya (+254)</option>
+                    <option value="+27">🇿🇦 South Africa (+27)</option>
+                    <option value="+233">🇬🇭 Ghana (+233)</option>
+                    <option value="+256">🇺🇬 Uganda (+256)</option>
+                    <option value="+255">🇹🇿 Tanzania (+255)</option>
+                    <option value="+237">🇨🇲 Cameroon (+237)</option>
+                </select>
+            </div>
+            
+            <!-- Phone -->
+            <div class="mb-3">
+                <label class="block text-sm font-semibold mb-1">Phone Number</label>
+                <input type="tel" id="phone" placeholder="7033143508" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+            </div>
+            
+            <!-- Message -->
+            <div class="mb-4">
+                <label class="block text-sm font-semibold mb-1">Message (Optional)</label>
+                <textarea id="msg" rows="2" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"></textarea>
+            </div>
+            
+            <!-- START CHAT BUTTON -->
+            <button onclick="startChat()" class="w-full wa-green text-white font-bold py-4 rounded-xl text-lg mb-3">
+                 START CHAT
+            </button>
+            
+            <!-- Copy & QR Buttons -->
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <button onclick="copyLink()" class="bg-blue-500 text-white font-semibold py-3 rounded-xl">
+                    📋 Copy Link
+                </button>
+                <button onclick="showQR()" class="bg-purple-500 text-white font-semibold py-3 rounded-xl">
+                     QR Code
+                </button>
+            </div>
+            
+            <!-- Shareable Link Button -->            <button onclick="createShareableLink()" class="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold py-4 rounded-xl mb-2">
+                🔗 Create Shareable Link
+            </button>
+        </div>
 
-            // Copy Link
-            document.getElementById('copyLinkBtn').addEventListener('click', function() {
-                let { code, phone, msg } = getValues();
-                if (!phone) { alert('Please enter a phone number'); return; }
-                let url = buildURL(code, phone, msg);
-                
-                navigator.clipboard.writeText(url).then(() => {
-                    showToast('✅ Link copied to clipboard!');
-                }).catch(() => {
-                    let tempInput = document.createElement('input');
-                    tempInput.value = url;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    showToast('✅ Link copied!');
-                });
-            });
+        <!-- QR Modal -->
+        <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center">
+                <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
+                <div id="qrcode" class="flex justify-center mb-4"></div>
+                <button onclick="closeQR()" class="w-full bg-gray-200 py-2 rounded-xl">Close</button>
+            </div>
+        </div>
 
-            // QR Code            document.getElementById('generateQRBtn').addEventListener('click', function() {
-                let { code, phone, msg } = getValues();
-                if (!phone) { alert('Please enter a phone number'); return; }
-                let url = buildURL(code, phone, msg);
+        <!-- Shareable Link Modal -->
+        <div id="shareModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4">
+                <h3 class="text-xl font-bold text-center">Your Shareable Link</h3>
                 
-                document.getElementById('qrcode').innerHTML = ''; 
-                new QRCode(document.getElementById('qrcode'), {
+                <!-- Direct Link -->
+                <div class="bg-gray-100 p-3 rounded-xl">
+                    <p class="text-xs text-gray-500 mb-1">Direct Link:</p>
+                    <input type="text" id="directLink" readonly class="w-full bg-transparent text-xs outline-none break-all">
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button onclick="copyDirectLink()" class="flex-1 bg-green-500 text-white py-2 rounded-xl">📋 Copy</button>
+                    <button onclick="closeShareModal()" class="flex-1 bg-gray-200 py-2 rounded-xl">Close</button>
+                </div>
+                
+                <!-- Shrink Button -->
+                <button onclick="shrinkLink()" id="shrinkBtn" class="w-full bg-purple-500 text-white font-semibold py-3 rounded-xl">
+                    🔗 Shrink Link (Earn Money)
+                </button>
+                
+                <!-- Shortened Link Section -->
+                <div id="shortenedSection" class="hidden space-y-3">
+                    <div class="bg-green-50 border-2 border-green-500 p-3 rounded-xl">
+                        <p class="text-xs text-green-700 font-bold mb-1">💰 Monetized Link:</p>
+                        <input type="text" id="shortenedLink" readonly class="w-full bg-white text-xs outline-none break-all font-mono">
+                    </div>
+                    
+                    <button onclick="copyShortenedLink()" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl">
+                        📋 Copy Shortened Link
+                    </button>
+                    
+                    <div class="text-center">
+                        <p class="text-xs text-gray-500 mb-2">QR Code:</p>
+                        <div id="shortenedQR" class="flex justify-center"></div>
+                    </div>                    
+                    <div class="bg-blue-50 p-3 rounded-xl">
+                        <p class="text-xs text-blue-700 text-center">💡 Earn money when people click!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad -->
+        <div class="bg-white rounded-xl p-2 text-center">
+            <script>
+                atOptions = {
+                    'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast">Copied!</div>
+
+    <!-- Main Script -->
+    <script>
+        let currentURL = '';
+        
+        function updateCountryCode() {
+            var select = document.getElementById('countrySelect');
+            var input = document.getElementById('code');
+            if (select.value) {
+                input.value = select.value;
+                showToast('Country code updated!');
+            }
+        }
+        
+        function startChat() {
+            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+            var msg = document.getElementById('msg').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number!');
+                return;
+            }
+            
+            var url = 'https://wa.me/' + code + phone;            if (msg) {
+                url += '?text=' + encodeURIComponent(msg);
+            }
+            
+            window.open(url, '_blank');
+        }
+        
+        function copyLink() {
+            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+            var msg = document.getElementById('msg').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number!');
+                return;
+            }
+            
+            var url = 'https://wa.me/' + code + phone;
+            if (msg) {
+                url += '?text=' + encodeURIComponent(msg);
+            }
+            
+            // Copy
+            var tempInput = document.createElement('input');
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            showToast('✅ Link copied!');
+        }
+        
+        function showQR() {
+            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+            var msg = document.getElementById('msg').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number!');
+                return;
+            }
+            
+            var url = 'https://wa.me/' + code + phone;
+            if (msg) {
+                url += '?text=' + encodeURIComponent(msg);
+            }
+            
+            document.getElementById('qrcode').innerHTML = '';
+            setTimeout(function() {                new QRCode(document.getElementById('qrcode'), {
                     text: url,
                     width: 200,
-                    height: 200,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
+                    height: 200
                 });
-                document.getElementById('qr-modal').classList.remove('hidden');
-            });
-
-            // Close QR Modal
-            document.getElementById('closeQRBtn').addEventListener('click', function() {
-                document.getElementById('qr-modal').classList.add('hidden');
-            });
-            document.getElementById('qr-modal').addEventListener('click', function(e) {
-                if (e.target === this) this.classList.add('hidden');
-            });
-
-            // Create Shareable Link
-            document.getElementById('createShareableLinkBtn').addEventListener('click', function() {
-                let { code, phone, msg } = getValues();
-                if (!phone) { alert('Please enter a phone number'); return; }
-                
-                currentWhatsAppURL = buildURL(code, phone, msg);
-                
-                // Set the direct link in the input
-                document.getElementById('shareableLinkInput').value = currentWhatsAppURL;
-                
-                // Generate QR code for the direct link
-                document.getElementById('shareableQRCode').innerHTML = '';
-                new QRCode(document.getElementById('shareableQRCode'), {
-                    text: currentWhatsAppURL,
-                    width: 120,
-                    height: 120,
-                    colorDark : "#25D366",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
-                });
-                
-                // Show modal
-                document.getElementById('shareableLinkModal').classList.remove('hidden');
-                
-                // Reset shrink button and hide shortened section                document.getElementById('shrinkLinkBtn').classList.remove('hidden');
-                document.getElementById('shortenedLinkSection').classList.add('hidden');
-            });
-
-            // Shrink Link Button
-            document.getElementById('shrinkLinkBtn').addEventListener('click', async function() {
-                const btn = document.getElementById('shrinkLinkBtn');
-                const originalText = btn.innerHTML;
-                
-                // Show loading state
-                btn.innerHTML = '<span class="animate-pulse">⏳ Shortening...</span>';
-                btn.disabled = true;
-                
-                try {
-                    // Your ShrinkMe.io API Token
-                    const apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
-                    
-                    // Call ShrinkMe.io API
-                    const apiUrl = `https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(currentWhatsAppURL)}&format=text`;
-                    
-                    const response = await fetch(apiUrl);
-                    const shortenedURL = await response.text();
-                    
+                document.getElementById('qrModal').classList.remove('hidden');
+            }, 100);
+        }
+        
+        function closeQR() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+        
+        function createShareableLink() {
+            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+            var msg = document.getElementById('msg').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number!');
+                return;
+            }
+            
+            currentURL = 'https://wa.me/' + code + phone;
+            if (msg) {
+                currentURL += '?text=' + encodeURIComponent(msg);
+            }
+            
+            document.getElementById('directLink').value = currentURL;
+            document.getElementById('shareModal').classList.remove('hidden');
+            document.getElementById('shortenedSection').classList.add('hidden');
+            document.getElementById('shrinkBtn').style.display = 'block';
+        }
+        
+        function copyDirectLink() {
+            var input = document.getElementById('directLink');
+            input.select();
+            document.execCommand('copy');
+            showToast('✅ Link copied!');
+        }
+        
+        function shrinkLink() {
+            var btn = document.getElementById('shrinkBtn');
+            btn.innerHTML = '⏳ Shortening...';
+            btn.disabled = true;
+            
+            var apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
+            var apiUrl = 'https://shrinkme.io/api?api=' + apiKey + '&url=' + encodeURIComponent(currentURL) + '&format=text';
+            
+            fetch(apiUrl)                .then(response => response.text())
+                .then(shortenedURL => {
                     if (shortenedURL && shortenedURL.includes('shrinkme.io')) {
-                        // Show shortened link section
-                        document.getElementById('shortenedLinkInput').value = shortenedURL;
-                        document.getElementById('shortenedLinkSection').classList.remove('hidden');
+                        document.getElementById('shortenedLink').value = shortenedURL;
+                        document.getElementById('shortenedSection').classList.remove('hidden');
+                        document.getElementById('shrinkBtn').style.display = 'none';
                         
                         // Generate QR for shortened link
-                        document.getElementById('shortenedQRCode').innerHTML = '';
-                        new QRCode(document.getElementById('shortenedQRCode'), {
+                        document.getElementById('shortenedQR').innerHTML = '';
+                        new QRCode(document.getElementById('shortenedQR'), {
                             text: shortenedURL,
                             width: 100,
-                            height: 100,
-                            colorDark : "#25D366",
-                            colorLight : "#ffffff",
-                            correctLevel : QRCode.CorrectLevel.H
+                            height: 100
                         });
-                        
-                        // Hide shrink button
-                        btn.classList.add('hidden');
                     } else {
-                        alert('Error: Could not shorten link. Please try again.');
+                        alert('Error shortening link');
+                        btn.innerHTML = '🔗 Shrink Link (Earn Money)';
+                        btn.disabled = false;
                     }
-                    
-                } catch (error) {
-                    console.error('Error shortening URL:', error);
-                    alert('Error connecting to ShrinkMe.io. Please try again.');
-                } finally {
-                    // Restore button                    btn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error connecting to ShrinkMe.io');
+                    btn.innerHTML = '🔗 Shrink Link (Earn Money)';
                     btn.disabled = false;
-                }
-            });
-
-            // Copy Shareable Link
-            document.getElementById('copyShareableLinkBtn').addEventListener('click', function() {
-                const input = document.getElementById('shareableLinkInput');
-                input.select();
-                document.execCommand('copy');
-                showToast('✅ Link copied!');
-            });
-
-            // Copy Shortened Link
-            document.getElementById('copyShortenedLinkBtn').addEventListener('click', function() {
-                const input = document.getElementById('shortenedLinkInput');
-                input.select();
-                document.execCommand('copy');
-                showToast('✅ Shortened link copied! Share it to earn! 💰');
-            });
-
-            // Close Shareable Link Modal
-            document.getElementById('closeShareableLinkModal').addEventListener('click', function() {
-                document.getElementById('shareableLinkModal').classList.add('hidden');
-            });
-            document.getElementById('shareableLinkModal').addEventListener('click', function(e) {
-                if (e.target === this) this.classList.add('hidden');
-            });
-
-            // Message Templates
-            document.querySelectorAll('.template-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.getElementById('message').value = this.getAttribute('data-text');
                 });
-            });
-        });
+        }
+        
+        function copyShortenedLink() {
+            var input = document.getElementById('shortenedLink');
+            input.select();
+            document.execCommand('copy');
+            showToast('✅ Shortened link copied! Share to earn! 💰');
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.add('hidden');
+        }
+        
+        function showToast(message) {
+            var toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
     </script>
-
-    <!-- ========================================== -->
-    <!-- ADSTERRA SCRIPTS (Loaded LAST)             -->
-    <!-- ========================================== -->
-    <script async="async" data-cfasync="false" src="https://pl29820186.effectivecpmnetwork.com/31f16fc7913263f00e93a85356f6e7d6/invoke.js"></script>
-    <script src="https://pl29819831.effectivecpmnetwork.com/40/ec/a6/40eca62ffa3dd47c9612d8d993c2924e.js"></script>
-
 </body>
 </html>
