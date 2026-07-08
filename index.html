@@ -1,87 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#25D366">
-    <title>DirectWa - WhatsApp Direct Message</title>
+    <title>DirectWa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .wa-green { background-color: #25D366; }
-        .wa-green:hover { background-color: #128C7E; }
-    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
 
-    <!-- Top Bar -->
-    <div class="wa-green text-white p-4 text-center font-bold text-xl shadow-lg">
+    <!-- Header -->
+    <div class="bg-green-500 text-white p-4 text-center font-bold text-xl">
         DirectWa
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-md mx-auto p-4 mt-4">
+    <!-- Main Form -->
+    <div class="max-w-md mx-auto p-4 mt-4 space-y-4">
         
-        <!-- Input Card -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
-            
-            <h2 class="text-lg font-bold text-gray-800 text-center">Send WhatsApp Message</h2>
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h2 class="text-lg font-bold text-center mb-4">Send WhatsApp Message</h2>
             
             <!-- Country Code -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Country Code</label>
-                <input type="text" id="code" value="+1" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 outline-none text-center font-bold">
+            <div class="mb-3">
+                <label class="block text-sm font-semibold mb-1">Country Code</label>
+                <input type="text" id="code" value="+234" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center font-bold">
             </div>
             
-            <!-- Phone Number -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Phone Number</label>
-                <input type="tel" id="phone" placeholder="1234567890" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 outline-none">
+            <!-- Phone -->
+            <div class="mb-3">
+                <label class="block text-sm font-semibold mb-1">Phone Number</label>
+                <input type="tel" id="phone" placeholder="7033143508" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
             </div>
             
             <!-- Message -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Message (Optional)</label>
-                <textarea id="msg" rows="2" placeholder="Hi there..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 outline-none resize-none"></textarea>
+            <div class="mb-4">
+                <label class="block text-sm font-semibold mb-1">Message (Optional)</label>
+                <textarea id="msg" rows="2" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"></textarea>
             </div>
             
-            <!-- START CHAT Button -->
-            <button onclick="startChat()" class="w-full wa-green text-white font-bold py-4 rounded-xl shadow-lg text-lg">
+            <!-- START CHAT BUTTON -->
+            <button id="startBtn" class="w-full bg-green-600 text-white font-bold py-4 rounded-xl text-lg mb-3">
                  START CHAT
-            </button>            
-            <!-- Other Buttons -->
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="copyLink()" class="bg-blue-500 text-white font-semibold py-3 rounded-xl hover:bg-blue-600">
+            </button>
+            
+            <!-- Copy & QR Buttons -->
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <button id="copyBtn" class="bg-blue-500 text-white font-semibold py-3 rounded-xl">
                     📋 Copy Link
                 </button>
-                <button onclick="showQR()" class="bg-purple-500 text-white font-semibold py-3 rounded-xl hover:bg-purple-600">
-                     QR Code
+                <button id="qrBtn" class="bg-purple-500 text-white font-semibold py-3 rounded-xl">                     QR Code
                 </button>
             </div>
             
-            <button onclick="goToBusinessCard()" class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-3 rounded-xl shadow-lg mt-2">
+            <!-- Business Card Button -->
+            <button id="cardBtn" class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-3 rounded-xl">
                 📇 Create Business Card
             </button>
         </div>
 
-        <!-- QR Code Modal -->
-        <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="closeQR(event)">
-            <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center" onclick="event.stopPropagation()">
+        <!-- QR Modal -->
+        <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center">
                 <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
                 <div id="qrcode" class="flex justify-center mb-4"></div>
-                <button onclick="closeQR()" class="w-full bg-gray-200 text-gray-800 font-semibold py-2 rounded-xl">Close</button>
+                <button onclick="document.getElementById('qrModal').classList.add('hidden')" class="w-full bg-gray-200 py-2 rounded-xl">Close</button>
             </div>
         </div>
 
-        <!-- Ad Space -->
-        <div class="mt-6 bg-white rounded-xl p-4 text-center">
-            <p class="text-xs text-gray-500 mb-2">Advertisement</p>
-            <!-- ADSTERRA NATIVE -->
-            <div id="container-31f16fc7913263f00e93a85356f6e7d6"></div>
-            <script async src="https://pl29820186.effectivecpmnetwork.com/31f16fc7913263f00e93a85356f6e7d6/invoke.js"></script>
-        </div>
-
-        <!-- Bottom Ad -->
-        <div class="mt-4 bg-white rounded-xl p-2 text-center fixed bottom-0 left-0 right-0 max-w-md mx-auto shadow-lg">
+        <!-- Ad -->
+        <div class="bg-white rounded-xl p-2 text-center">
             <script>
                 atOptions = {
                     'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
@@ -93,127 +79,119 @@
             </script>
             <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
         </div>
-        
-        <div class="h-20"></div>
     </div>
+
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
-    <!-- Main JavaScript -->
+    <!-- Main Script -->
     <script>
-        // TEST: Check if JavaScript is working
-        console.log("✅ JavaScript is working!");
-        alert("✅ Page loaded successfully! Buttons should work now.");
-        
-        // START CHAT FUNCTION
-        function startChat() {
-            console.log("Start Chat clicked!");
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Page loaded!');
             
-            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
-            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-            var msg = document.getElementById('msg').value;
+            // START CHAT BUTTON
+            document.getElementById('startBtn').addEventListener('click', function() {
+                console.log('Start Chat clicked!');
+                
+                var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+                var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+                var msg = document.getElementById('msg').value;                
+                if (!phone) {
+                    alert('Please enter a phone number!');
+                    return;
+                }
+                
+                var url = 'https://wa.me/' + code + phone;
+                if (msg) {
+                    url += '?text=' + encodeURIComponent(msg);
+                }
+                
+                console.log('Opening:', url);
+                window.open(url, '_blank');
+            });
             
-            if (!phone) {
-                alert('❌ Please enter a phone number!');
-                return;
-            }
-            
-            var url = 'https://wa.me/' + code + phone;
-            if (msg) {
-                url += '?text=' + encodeURIComponent(msg);
-            }
-            
-            console.log("Opening:", url);
-            window.open(url, '_blank');
-        }
-        
-        // COPY LINK FUNCTION
-        function copyLink() {
-            console.log("Copy Link clicked!");
-            
-            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
-            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-            var msg = document.getElementById('msg').value;
-            
-            if (!phone) {
-                alert('❌ Please enter a phone number!');
-                return;
-            }
-            
-            var url = 'https://wa.me/' + code + phone;
-            if (msg) {
-                url += '?text=' + encodeURIComponent(msg);
-            }
-            
-            // Copy to clipboard            if (navigator.clipboard) {
-                navigator.clipboard.writeText(url).then(function() {
-                    alert('✅ Link copied to clipboard!');
-                }, function() {
+            // COPY LINK BUTTON
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                console.log('Copy Link clicked!');
+                
+                var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
+                var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+                var msg = document.getElementById('msg').value;
+                
+                if (!phone) {
+                    alert('Please enter a phone number!');
+                    return;
+                }
+                
+                var url = 'https://wa.me/' + code + phone;
+                if (msg) {
+                    url += '?text=' + encodeURIComponent(msg);
+                }
+                
+                // Copy to clipboard
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(url).then(function() {
+                        alert('✅ Link copied!');
+                    }).catch(function() {
+                        fallbackCopy(url);
+                    });
+                } else {
                     fallbackCopy(url);
-                });
-            } else {
-                fallbackCopy(url);
-            }
-        }
-        
-        // Fallback copy function
-        function fallbackCopy(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                alert('✅ Link copied!');
-            } catch (err) {
-                alert('❌ Failed to copy. Please copy manually: ' + text);
-            }
-            document.body.removeChild(textArea);
-        }
-        
-        // SHOW QR CODE
-        function showQR() {
-            console.log("Show QR clicked!");
+                }
+            });
             
-            var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');
-            var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-            var msg = document.getElementById('msg').value;
+            // QR CODE BUTTON
+            document.getElementById('qrBtn').addEventListener('click', function() {
+                console.log('QR Code clicked!');
+                
+                var code = document.getElementById('code').value.replace(/[^0-9+]/g, '');                var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+                var msg = document.getElementById('msg').value;
+                
+                if (!phone) {
+                    alert('Please enter a phone number!');
+                    return;
+                }
+                
+                var url = 'https://wa.me/' + code + phone;
+                if (msg) {
+                    url += '?text=' + encodeURIComponent(msg);
+                }
+                
+                // Clear and generate QR
+                document.getElementById('qrcode').innerHTML = '';
+                
+                setTimeout(function() {
+                    new QRCode(document.getElementById('qrcode'), {
+                        text: url,
+                        width: 200,
+                        height: 200
+                    });
+                    document.getElementById('qrModal').classList.remove('hidden');
+                }, 100);
+            });
             
-            if (!phone) {
-                alert('❌ Please enter a phone number!');
-                return;
+            // BUSINESS CARD BUTTON
+            document.getElementById('cardBtn').addEventListener('click', function() {
+                console.log('Business Card clicked!');
+                window.location.href = 'card.html';
+            });
+            
+            // Fallback copy function
+            function fallbackCopy(text) {
+                var textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('✅ Link copied!');
+                } catch (err) {
+                    alert('Copy manually: ' + text);
+                }
+                document.body.removeChild(textArea);
             }
-            
-            var url = 'https://wa.me/' + code + phone;
-            if (msg) {
-                url += '?text=' + encodeURIComponent(msg);
-            }
-            
-            // Clear previous QR
-            document.getElementById('qrcode').innerHTML = '';
-            
-            // Generate new QR
-            setTimeout(function() {
-                new QRCode(document.getElementById('qrcode'), {                    text: url,
-                    width: 200,
-                    height: 200
-                });
-                document.getElementById('qrModal').classList.remove('hidden');
-            }, 100);
-        }
-        
-        // CLOSE QR
-        function closeQR(event) {
-            if (!event || event.target.id === 'qrModal') {
-                document.getElementById('qrModal').classList.add('hidden');
-            }
-        }
-        
-        // GO TO BUSINESS CARD
-        function goToBusinessCard() {
-            console.log("Going to business card page");
-            window.location.href = 'card.html';
-        }
+        });
     </script>
 </body>
 </html>
