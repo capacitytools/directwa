@@ -37,187 +37,265 @@
     </script>
     
     <style>
-        /* Custom Styles */
         .wa-gradient { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
         .dark .wa-gradient { background: linear-gradient(135deg, #128C7E 0%, #075E54 100%); }
-        
-        /* Smooth transitions */
         .transition-all-300 { transition: all 0.3s ease-in-out; }
-        
-        /* Hide scrollbar but keep functionality */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-                /* PWA Install Button Animation */
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+        
+        /* Page Navigation */
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        /* Business Card Preview */        .business-card-preview {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .install-pulse { animation: pulse-green 2s infinite; }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col transition-all-300">
 
-    <!-- ADSTERRA POPUNDER -->
-    <script src="https://pl29820228.effectivecpmnetwork.com/7f/63/83/7f638315da085a860c6d66deecc31bcd.js"></script>
-
-    <!-- ADSTERRA SOCIAL BAR -->
+    <!-- ADSTERRA SOCIAL BAR (Less Intrusive) -->
     <script src="https://pl29819831.effectivecpmnetwork.com/40/ec/a6/40eca62ffa3dd47c9612d8d993c2924e.js"></script>
 
     <!-- Top Navigation -->
     <nav class="wa-gradient shadow-lg sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('home')">
                 <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
                     <span class="text-green-600 font-extrabold text-lg">DW</span>
                 </div>
                 <span class="text-white font-bold text-xl">DirectWa</span>
             </div>
             <div class="flex items-center space-x-2">
-                <!-- Dark Mode Toggle -->
                 <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-white">
                     <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                </button>
-                <!-- Install App Button -->
-                <button id="install-btn" onclick="installApp()" class="hidden px-3 py-2 bg-white text-green-600 rounded-lg font-semibold text-sm install-pulse hover:bg-gray-100 transition">
-                    Install App
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            
-            <!-- Hero Section -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Message Without Saving</h1>
-                <p class="text-gray-600 dark:text-gray-300">Send WhatsApp messages instantly without adding contacts</p>
-            </div>
-
-            <!-- Main Form Card -->            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 md:p-8 space-y-6 transition-all-300">
+    <!-- MAIN PAGE (Direct Message Tool) -->
+    <div id="home-page" class="page active">
+        <main class="flex-grow px-4 py-8">
+            <div class="max-w-2xl mx-auto">
                 
-                <!-- Phone Input Section -->
-                <div class="space-y-4">
-                    <div class="flex space-x-3">
-                        <div class="w-1/3">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Code</label>
-                            <input type="text" id="countryCode" value="+1" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium text-center">
-                        </div>
-                        <div class="w-2/3">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Phone Number</label>
-                            <input type="tel" id="phoneNumber" placeholder="123 456 7890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium">
-                        </div>
-                    </div>
-
-                    <!-- Message Input -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Message (Optional)</label>
-                        <textarea id="message" rows="2" placeholder="Hi, I'm contacting you about..." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition resize-none"></textarea>
-                    </div>
-
-                    <!-- Message Templates -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Quick Templates</label>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="fillTemplate('Hi, I am interested in your product')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Interested</button>
-                            <button onclick="fillTemplate('Is this still available?')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Availability</button>
-                            <button onclick="fillTemplate('Hello, I would like to know more')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">More Info</button>
-                            <button onclick="fillTemplate('')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Clear</button>
-                        </div>
-                    </div>
+                <!-- Hero Section -->
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Message Without Saving</h1>
+                    <p class="text-gray-600 dark:text-gray-300">Send WhatsApp messages instantly without adding contacts</p>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button onclick="startChat()" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all active:scale-95 flex items-center justify-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                        </svg>
-                        <span>Start Chat</span>
-                    </button>
+                <!-- Main Form Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 md:p-8 space-y-6 transition-all-300">
                     
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="copyLink()" class="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition flex items-center justify-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                            <span>Copy Link</span>
+                    <!-- Phone Input Section -->
+                    <div class="space-y-4">
+                        <div class="flex space-x-3">                            <div class="w-1/3">
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Code</label>
+                                <input type="text" id="countryCode" value="+1" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium text-center">
+                            </div>
+                            <div class="w-2/3">
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Phone Number</label>
+                                <input type="tel" id="phoneNumber" placeholder="123 456 7890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition font-medium">
+                            </div>
+                        </div>
+
+                        <!-- Message Input -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Message (Optional)</label>
+                            <textarea id="message" rows="2" placeholder="Hi, I'm contacting you about..." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition resize-none"></textarea>
+                        </div>
+
+                        <!-- Message Templates -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">Quick Templates</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="fillTemplate('Hi, I am interested in your product')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Interested</button>
+                                <button onclick="fillTemplate('Is this still available?')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Availability</button>
+                                <button onclick="fillTemplate('Hello, I would like to know more')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">More Info</button>
+                                <button onclick="fillTemplate('')" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="space-y-3">
+                        <button onclick="startChat()" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all active:scale-95 flex items-center justify-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                            </svg>
+                            <span>Start Chat</span>
                         </button>
-                        <button onclick="generateQR()" class="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition flex items-center justify-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                            <span>QR Code</span>                        </button>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="copyLink()" class="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                <span>Copy Link</span>
+                            </button>
+                            <button onclick="generateQR()" class="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                                <span>QR Code</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- QR Code Modal -->
+                <div id="qr-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeQR(event)">
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full text-center space-y-4" onclick="event.stopPropagation()">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Scan to Chat</h3>
+                        <div id="qrcode" class="flex justify-center bg-white p-4 rounded-xl"></div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Scan this QR code to open WhatsApp chat</p>
+                        <button onclick="closeQR()" class="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition">Close</button>
+                    </div>
+                </div>
+
+                <!-- Business Card Section -->
+                <div class="mt-8 bg-gradient-to-r from-green-500 to-teal-600 rounded-3xl shadow-xl p-6 text-center text-white">
+                    <h3 class="text-xl font-bold mb-2">📇 Create Your Business Card</h3>
+                    <p class="text-green-100 mb-4 text-sm">Generate a beautiful digital business card with WhatsApp button</p>
+                    <button onclick="showPage('business-card')" class="px-6 py-3 bg-white text-green-600 font-bold rounded-xl hover:bg-green-50 transition shadow-lg">
+                        Create Free Card
+                    </button>
+                </div>
+
+                <!-- ADSTERRA NATIVE BANNER -->
+                <div class="mt-8 flex justify-center">
+                    <div id="container-31f16fc7913263f00e93a85356f6e7d6"></div>
+                </div>
+                <script async="async" data-cfasync="false" src="https://pl29820186.effectivecpmnetwork.com/31f16fc7913263f00e93a85356f6e7d6/invoke.js"></script>
+
+                <!-- ADSTERRA 300x250 BANNER -->
+                <div class="mt-8 flex justify-center">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-lg">
+                        <script>
+                            atOptions = {
+                                'key' : '265a3e3f0e948dc63fad891d2f0216ac',
+                                'format' : 'iframe',
+                                'height' : 250,
+                                'width' : 300,
+                                'params' : {}
+                            };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/265a3e3f0e948dc63fad891d2f0216ac/invoke.js"></script>
+                    </div>
+                </div>
+
+                <!-- Features Section -->
+                <div class="mt-12 grid md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
+                        <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Instant</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">No registration required. Start chatting immediately.</p>
+                    </div>                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
+                        <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Private</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">No contacts saved. Your privacy is protected.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
+                        <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-2">Mobile Ready</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Works perfectly on all devices. Install as app.</p>
                     </div>
                 </div>
             </div>
+        </main>
+    </div>
 
-            <!-- QR Code Modal -->
-            <div id="qr-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full text-center space-y-4">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white">Scan to Chat</h3>
-                    <div id="qrcode" class="flex justify-center"></div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Scan this QR code to open WhatsApp chat</p>
-                    <button onclick="closeQR()" class="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition">Close</button>
+    <!-- BUSINESS CARD PAGE -->
+    <div id="business-card-page" class="page">
+        <main class="flex-grow px-4 py-8 pb-24">
+            <div class="max-w-2xl mx-auto">
+                
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">📇 Digital Business Card</h1>
+                    <p class="text-gray-600 dark:text-gray-300">Create a beautiful card people can scan to chat with you</p>
                 </div>
-            </div>
 
-            <!-- ADSTERRA NATIVE BANNER -->
-            <div class="mt-8 flex justify-center">
-                <div id="container-31f16fc7913263f00e93a85356f6e7d6"></div>
-            </div>
-            <script async="async" data-cfasync="false" src="https://pl29820186.effectivecpmnetwork.com/31f16fc7913263f00e93a85356f6e7d6/invoke.js"></script>
+                <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
+                    
+                    <!-- Business Card Form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Your Name *</label>
+                            <input type="text" id="cardName" placeholder="John Doe" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition">
+                        </div>
 
-            <!-- ADSTERRA 300x250 BANNER -->
-            <div class="mt-8 flex justify-center">
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-lg">
-                    <script>
-                        atOptions = {
-                            'key' : '265a3e3f0e948dc63fad891d2f0216ac',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/265a3e3f0e948dc63fad891d2f0216ac/invoke.js"></script>
-                </div>
-            </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Business/Company Name</label>
+                            <input type="text" id="cardBusiness" placeholder="ABC Company" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition">
+                        </div>
 
-            <!-- Features Section -->
-            <div class="mt-12 grid md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
-                    <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Phone Number (with country code) *</label>
+                            <input type="tel" id="cardPhone" placeholder="+1234567890" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Job Title</label>                            <input type="text" id="cardTitle" placeholder="CEO, Manager, etc." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Email (Optional)</label>
+                            <input type="email" id="cardEmail" placeholder="john@example.com" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green focus:border-transparent outline-none transition">
+                        </div>
                     </div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">Instant</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">No registration required. Start chatting immediately.</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
-                    <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </div>                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">Private</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">No contacts saved. Your privacy is protected.</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center">
-                    <div class="w-12 h-12 wa-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+
+                    <!-- Generate Button -->
+                    <button onclick="generateBusinessCard()" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95">
+                        Generate My Card
+                    </button>
+
+                    <!-- Card Preview (Hidden by default) -->
+                    <div id="cardPreview" class="hidden mt-8 space-y-4">
+                        <div class="business-card-preview">
+                            <div class="text-6xl mb-4">👤</div>
+                            <h2 id="previewName" class="text-2xl font-bold mb-1"></h2>
+                            <p id="previewTitle" class="text-green-100 mb-4"></p>
+                            <p id="previewBusiness" class="text-lg mb-2"></p>
+                            <p id="previewPhone" class="text-sm text-green-100"></p>
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-700 p-4 rounded-xl text-center">
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Share this link:</p>
+                            <div class="flex space-x-2">
+                                <input type="text" id="cardLink" readonly class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300">
+                                <button onclick="copyCardLink()" class="px-4 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition">Copy</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-700 p-4 rounded-xl text-center">
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Or scan QR code:</p>
+                            <div id="cardQRCode" class="flex justify-center bg-white p-3 rounded-xl inline-block mx-auto"></div>
+                        </div>
+
+                        <button onclick="showPage('home')" class="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                            ← Back to Home
+                        </button>
                     </div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-2">Mobile Ready</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Works perfectly on all devices. Install as app.</p>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
         <div class="max-w-4xl mx-auto px-4 py-6 text-center">
-            <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
-            <div class="mt-4 flex justify-center space-x-4 text-xs text-gray-500 dark:text-gray-500">
+            <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>            <div class="mt-4 flex justify-center space-x-4 text-xs text-gray-500 dark:text-gray-500">
                 <a href="#" class="hover:text-wa-green transition">Privacy Policy</a>
                 <span>•</span>
                 <a href="#" class="hover:text-wa-green transition">Terms of Service</a>
-                <span>•</span>
-                <a href="#" class="hover:text-wa-green transition">Contact</a>
             </div>
         </div>
     </footer>
@@ -243,7 +321,8 @@
 
     <!-- JavaScript -->
     <script>
-        // Dark Mode Toggle        function toggleDarkMode() {
+        // Dark Mode Toggle
+        function toggleDarkMode() {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
                 localStorage.theme = 'light';
@@ -253,11 +332,27 @@
             }
         }
 
-        // Check for saved theme preference or prefer-color-scheme
+        // Check for saved theme preference
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
+        }
+
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            if (pageName === 'home') {
+                document.getElementById('home-page').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageName === 'business-card') {
+                document.getElementById('business-card-page').classList.add('active');
+                window.scrollTo(0, 0);
+            }
         }
 
         // Fill Message Template
@@ -291,26 +386,24 @@
             }
         }
 
-        // Copy Link
-        function copyLink() {            let url = getWhatsAppURL();
+        // Copy Link - FIXED
+        function copyLink() {
+            let url = getWhatsAppURL();
             if (url) {
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('Link copied to clipboard!');
-                }).catch(() => {
-                    // Fallback
-                    let tempInput = document.createElement('input');
-                    tempInput.value = url;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    alert('Link copied to clipboard!');
-                });
+                // Create temporary input element                let tempInput = document.createElement('input');
+                tempInput.value = url;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Show success message
+                alert('✅ Link copied to clipboard!');
             }
         }
 
-        // Generate QR Code
-        let qrCodeObj = null;
+        // Generate QR Code - FIXED
+        let qrCodeInstance = null;
         function generateQR() {
             let url = getWhatsAppURL();
             if (!url) return;
@@ -321,66 +414,91 @@
             // Clear previous QR
             qrContainer.innerHTML = '';
             
-            // Generate new QR
-            qrCodeObj = new QRCode(qrContainer, {
-                text: url,
-                width: 200,
-                height: 200,
+            // Generate new QR code
+            setTimeout(() => {
+                qrCodeInstance = new QRCode(qrContainer, {
+                    text: url,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#25D366',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                
+                modal.classList.remove('hidden');
+            }, 100);
+        }
+
+        // Close QR Modal
+        function closeQR(event) {
+            if (!event || event.target.id === 'qr-modal') {
+                document.getElementById('qr-modal').classList.add('hidden');
+            }
+        }
+
+        // Business Card Generation
+        function generateBusinessCard() {
+            let name = document.getElementById('cardName').value.trim();
+            let business = document.getElementById('cardBusiness').value.trim();            let phone = document.getElementById('cardPhone').value.trim().replace(/\D/g, '');
+            let title = document.getElementById('cardTitle').value.trim();
+            let email = document.getElementById('cardEmail').value.trim();
+            
+            // Validation
+            if (!name || !phone) {
+                alert('Please fill in your name and phone number');
+                return;
+            }
+            
+            // Update preview
+            document.getElementById('previewName').textContent = name;
+            document.getElementById('previewBusiness').textContent = business || '';
+            document.getElementById('previewTitle').textContent = title || '';
+            document.getElementById('previewPhone').textContent = phone;
+            
+            // Generate shareable link (using URL parameters)
+            let cardData = {
+                name: name,
+                business: business,
+                phone: phone,
+                title: title,
+                email: email
+            };
+            let encodedData = btoa(JSON.stringify(cardData));
+            let cardURL = window.location.origin + '/card.html#' + encodedData;
+            document.getElementById('cardLink').value = cardURL;
+            
+            // Generate QR code for the card
+            let qrContainer = document.getElementById('cardQRCode');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: cardURL,
+                width: 150,
+                height: 150,
                 colorDark: '#25D366',
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
             
-            modal.classList.remove('hidden');
-        }
-
-        // Close QR Modal
-        function closeQR() {
-            document.getElementById('qr-modal').classList.add('hidden');
-        }
-
-        // PWA Install Logic
-        let deferredPrompt;
-        let installButton = document.getElementById('install-btn');
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.classList.remove('hidden');
-        });
-
-        window.addEventListener('appinstalled', () => {
-            installButton.classList.add('hidden');
-            deferredPrompt = null;
-        });
-
-        async function installApp() {
-            if (!deferredPrompt) {
-                alert('To install: Tap the share button in your browser and select "Add to Home Screen"');
-                return;
-            }
+            // Show preview
+            document.getElementById('cardPreview').classList.remove('hidden');
             
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            
-            if (outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
-            deferredPrompt = null;
+            // Scroll to preview
+            document.getElementById('cardPreview').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Register Service Worker
+        // Copy Card Link
+        function copyCardLink() {
+            let linkInput = document.getElementById('cardLink');            linkInput.select();
+            document.execCommand('copy');
+            alert('✅ Card link copied!');
+        }
+
+        // Service Worker for PWA
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {
                 console.log('Service worker registration failed');
             });
         }
-
-        // Close modal on outside click
-        document.getElementById('qr-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'qr-modal') {
-                closeQR();
-            }
-        });
     </script>
 </body>
 </html>
