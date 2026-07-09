@@ -55,35 +55,35 @@
                         <option value="+1">🇺🇸 +1</option>
                         <option value="+7">🇷🇺 +7</option>
                         <option value="+20">🇪🇬 +20</option>
-                        <option value="+27">🇿🇦 +27</option>
-                        <option value="+30">🇬🇷 +30</option>
-                        <option value="+31">🇳🇱 +31</option>
+                        <option value="+27">🇦 +27</option>
+                        <option value="+30">🇷 +30</option>
+                        <option value="+31">🇳 +31</option>
                         <option value="+33">🇫🇷 +33</option>
                         <option value="+34">🇪🇸 +34</option>
                         <option value="+39">🇮🇹 +39</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+44">🇧 +44</option>
+                        <option value="+49">🇩 +49</option>
                         <option value="+52">🇲🇽 +52</option>
                         <option value="+54">🇦🇷 +54</option>
                         <option value="+55">🇧🇷 +55</option>
-                        <option value="+60">🇲🇾 +60</option>
+                        <option value="+60">🇾 +60</option>
                         <option value="+61">🇦🇺 +61</option>
-                        <option value="+62">🇮🇩 +62</option>
-                        <option value="+63">🇵🇭 +63</option>
+                        <option value="+62">🇩 +62</option>
+                        <option value="+63">🇵 +63</option>
                         <option value="+65">🇸🇬 +65</option>
                         <option value="+66">🇹🇭 +66</option>
                         <option value="+81">🇯🇵 +81</option>
-                        <option value="+82">🇰🇷 +82</option>
+                        <option value="+82">🇷 +82</option>
                         <option value="+84">🇻🇳 +84</option>
                         <option value="+86">🇨🇳 +86</option>
                         <option value="+90">🇹🇷 +90</option>
                         <option value="+91">🇮🇳 +91</option>
-                        <option value="+92">🇵🇰 +92</option>
+                        <option value="+92">🇰 +92</option>
                         <option value="+212">🇲🇦 +212</option>
                         <option value="+213">🇩🇿 +213</option>
                         <option value="+233">🇬🇭 +233</option>
-                        <option value="+234" selected>🇳🇬 +234</option>
-                        <option value="+237">🇨🇲 +237</option>
+                        <option value="+234" selected>🇬 +234</option>
+                        <option value="+237">🇲 +237</option>
                         <option value="+254">🇰🇪 +254</option>
                         <option value="+255">🇹🇿 +255</option>
                         <option value="+256">🇺🇬 +256</option>
@@ -307,27 +307,41 @@
 
         async function generateCleanLink(url) {
             try {
-                // Use is.gd (free, no ads, no API key needed)
+                // Try is.gd first
                 let response = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`);
                 let shortURL = await response.text();
                 
-                if (shortURL && shortURL.startsWith('http')) {
+                // Check if it's a valid short URL
+                if (shortURL && shortURL.startsWith('http') && shortURL.length < url.length && !shortURL.includes('Error')) {
                     return shortURL.trim();
-                } else {
-                    throw new Error('Invalid response');
                 }
+                
+                // If is.gd fails, try TinyURL
+                try {
+                    let tinyResponse = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`);
+                    let tinyURL = await tinyResponse.text();
+                    
+                    if (tinyURL && tinyURL.startsWith('http') && tinyURL !== 'Error' && tinyURL.length < url.length) {
+                        return tinyURL.trim();
+                    }
+                } catch (tinyError) {
+                    console.log('TinyURL failed:', tinyError);
+                }
+                
+                // If both fail, return original URL
+                console.log('Both shorteners failed, using original URL');
+                return url;
+                
             } catch (error) {
                 console.error('Clean link error:', error);
-                // Fallback: return original URL
-                return url;
+                return url; // Fallback to original
             }
         }
 
         async function generateMonetizedLink(url) {
             try {
                 // Use ShrinkMe.io (monetized, earns money)
-                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
-                let response = await fetch(`https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(url)}&format=json`);
+                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';                let response = await fetch(`https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(url)}&format=json`);
                 let data = await response.json();
                 
                 if (data.status === 'success' && data.shortenedUrl) {
@@ -341,6 +355,7 @@
                 return url;
             }
         }
+
         function copyCleanLink() {
             navigator.clipboard.writeText(cleanLinkURL).then(() => {
                 showToast('✅ Clean link copied!');
@@ -376,7 +391,6 @@
             currentQRLink = monetizedLinkURL;
             displayQR('Monetized Link QR Code');
         }
-
         function displayQR(title) {
             document.getElementById('qrTitle').textContent = title;
             document.getElementById('qrCode').innerHTML = '';
@@ -390,7 +404,8 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
             
-            document.getElementById('qrDisplay').classList.remove('hidden');            document.getElementById('qrDisplay').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('qrDisplay').classList.remove('hidden');
+            document.getElementById('qrDisplay').scrollIntoView({ behavior: 'smooth' });
         }
 
         function downloadQR() {
