@@ -52,38 +52,38 @@
                 <label class="block text-sm font-semibold mb-2">Type your WhatsApp phone number</label>
                 <div class="flex space-x-2">
                     <select id="countryCode" class="px-4 py-3 border-2 border-gray-200 rounded-xl bg-white font-bold text-center">
-                        <option value="+1">🇺 +1</option>
+                        <option value="+1">🇺🇸 +1</option>
                         <option value="+7">🇷🇺 +7</option>
                         <option value="+20">🇪🇬 +20</option>
                         <option value="+27">🇿🇦 +27</option>
                         <option value="+30">🇬🇷 +30</option>
-                        <option value="+31">🇳 +31</option>
+                        <option value="+31">🇳🇱 +31</option>
                         <option value="+33">🇫🇷 +33</option>
                         <option value="+34">🇪🇸 +34</option>
-                        <option value="+39">🇮 +39</option>
+                        <option value="+39">🇮🇹 +39</option>
                         <option value="+44">🇬🇧 +44</option>
                         <option value="+49">🇩🇪 +49</option>
-                        <option value="+52">🇲 +52</option>
+                        <option value="+52">🇲🇽 +52</option>
                         <option value="+54">🇦🇷 +54</option>
                         <option value="+55">🇧🇷 +55</option>
-                        <option value="+60">🇲🇾 +60</option>
-                        <option value="+61">🇦🇺 +61</option>
-                        <option value="+62">🇮 +62</option>
+                        <option value="+60">🇾 +60</option>
+                        <option value="+61">🇦 +61</option>
+                        <option value="+62">🇮🇩 +62</option>
                         <option value="+63">🇵🇭 +63</option>
-                        <option value="+65">🇸🇬 +65</option>
+                        <option value="+65">🇬 +65</option>
                         <option value="+66">🇹 +66</option>
                         <option value="+81">🇯🇵 +81</option>
                         <option value="+82">🇰🇷 +82</option>
-                        <option value="+84">🇻 +84</option>
-                        <option value="+86">🇨🇳 +86</option>
+                        <option value="+84">🇳 +84</option>
+                        <option value="+86">🇨 +86</option>
                         <option value="+90">🇹🇷 +90</option>
-                        <option value="+91">🇮 +91</option>
-                        <option value="+92">🇵🇰 +92</option>
-                        <option value="+212">🇲 +212</option>
-                        <option value="+213">🇩🇿 +213</option>
-                        <option value="+233">🇬🇭 +233</option>
-                        <option value="+234" selected>🇳🇬 +234</option>
-                        <option value="+237">🇨🇲 +237</option>
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+92">🇰 +92</option>
+                        <option value="+212">🇲🇦 +212</option>
+                        <option value="+213">🇩 +213</option>
+                        <option value="+233">🇬 +233</option>
+                        <option value="+234" selected>🇳 +234</option>
+                        <option value="+237">🇨 +237</option>
                         <option value="+254">🇰🇪 +254</option>
                         <option value="+255">🇹🇿 +255</option>
                         <option value="+256">🇺🇬 +256</option>
@@ -96,7 +96,7 @@
                         <option value="+420">🇨🇿 +420</option>
                         <option value="+966">🇸🇦 +966</option>
                         <option value="+971">🇦🇪 +971</option>
-                        <option value="+974">🇶🇦 +974</option>                    </select>
+                        <option value="+974">🇦 +974</option>                    </select>
                     <input type="tel" id="phoneNumber" placeholder="Your phone number here" class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl">
                 </div>
                 <p class="text-xs text-gray-500 mt-1">Remember to check your country code</p>
@@ -143,23 +143,23 @@
             
             <p class="text-gray-600 mb-6">Choose the link type that works best for you:</p>
             
-            <!-- Option 1: Direct Link -->
+            <!-- Option 1: Shortened Link (Bitly) -->
             <div class="mb-6">
-                <div class="flex items-center justify-between mb-2">                    <h3 class="text-lg font-bold text-blue-600">🔗 Direct Link (Official)</h3>
-                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">INSTANT</span>
+                <div class="flex items-center justify-between mb-2">                    <h3 class="text-lg font-bold text-blue-600"> Shortened Link</h3>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">BITLY</span>
                 </div>
                 <div class="bg-blue-50 border-2 border-blue-500 rounded-xl p-4 mb-3">
-                    <p class="text-sm text-blue-800 font-mono break-all" id="directLink"></p>
+                    <p class="text-sm text-blue-800 font-mono break-all" id="shortenedLink"></p>
                 </div>
                 <div class="flex space-x-2">
-                    <button onclick="copyDirectLink()" class="flex-1 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition text-sm">
+                    <button onclick="copyShortenedLink()" class="flex-1 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition text-sm">
                         📋 Copy
                     </button>
-                    <button onclick="showDirectQR()" class="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg hover:bg-gray-300 transition text-sm">
+                    <button onclick="showShortenedQR()" class="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg hover:bg-gray-300 transition text-sm">
                         📱 QR Code
                     </button>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">Official WhatsApp link. Most trusted & reliable. No redirects.</p>
+                <p class="text-xs text-gray-500 mt-2">Professional short link via Bitly. Clean & trustworthy.</p>
             </div>
 
             <!-- Divider -->
@@ -172,7 +172,7 @@
             <!-- Option 2: Monetized Link -->
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-lg font-bold text-green-600">💰 Monetized Link</h3>
+                    <h3 class="text-lg font-bold text-green-600"> Monetized Link</h3>
                     <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">EARN MONEY</span>
                 </div>
                 <div class="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-3">
@@ -183,7 +183,7 @@
                         📋 Copy
                     </button>
                     <button onclick="showMonetizedQR()" class="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg hover:bg-gray-300 transition text-sm">
-                        📱 QR Code
+                         QR Code
                     </button>
                 </div>
                 <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3 mt-3">
@@ -230,7 +230,12 @@
     </div>
 
     <script>
-        let directLinkURL = '';
+        // Bitly API Token
+        const BITLY_TOKEN = '2d6d464221b4cfbbd9c4a2e8bf7d948cad4fd171';
+        // ShrinkMe.io API Token
+        const SHRINKME_TOKEN = '8b061096284143bace60e6b73ff7081c57dc0325';
+        
+        let shortenedLinkURL = '';
         let monetizedLinkURL = '';
         let currentQRLink = '';
 
@@ -238,12 +243,12 @@
             let toast = document.getElementById("toast");
             toast.textContent = message;
             toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-        }
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);        }
 
         function showPreview() {
             let code = document.getElementById('countryCode').value;
-            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');            let msg = document.getElementById('message').value;
+            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
+            let msg = document.getElementById('message').value;
             
             if (!phone) {
                 alert('Please enter a phone number');
@@ -283,16 +288,16 @@
             
             try {
                 // Generate both links in parallel
-                let [directResult, monetizedResult] = await Promise.all([
-                    generateDirectLink(whatsappURL),
+                let [shortenedResult, monetizedResult] = await Promise.all([
+                    generateShortenedLink(whatsappURL),
                     generateMonetizedLink(whatsappURL)
                 ]);
-                
-                directLinkURL = directResult;
+                                shortenedLinkURL = shortenedResult;
                 monetizedLinkURL = monetizedResult;
                 
                 // Display results
-                document.getElementById('directLink').textContent = directLinkURL;                document.getElementById('monetizedLink').textContent = monetizedLinkURL;
+                document.getElementById('shortenedLink').textContent = shortenedLinkURL;
+                document.getElementById('monetizedLink').textContent = monetizedLinkURL;
                 
                 document.getElementById('resultModal').classList.remove('hidden');
                 
@@ -305,16 +310,43 @@
             }
         }
 
-        async function generateDirectLink(url) {
-            // Return the direct WhatsApp URL (official wa.me link)
-            return url;
-        }
+        async function generateShortenedLink(url) {
+            try {
+                // Use Bitly API
+                let response = await fetch('https://api-ssl.bitly.com/v4/shorten', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${BITLY_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "long_url": url,
+                        "domain": "bit.ly"
+                    })
+                });
+                
+                let data = await response.json();
+                console.log('Bitly response:', data);
+                
+                if (data.link) {
+                    return data.link;
+                } else if (data.message) {
+                    console.error('Bitly error:', data.message);
+                }
+                
+                // Fallback to direct link
+                return url;
+                
+            } catch (error) {
+                console.error('Bitly API error:', error);
+                // Fallback to direct link
+                return url;
+            }        }
 
         async function generateMonetizedLink(url) {
             try {
                 // Use ShrinkMe.io (monetized, earns money)
-                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
-                let response = await fetch(`https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(url)}&format=json`);
+                let response = await fetch(`https://shrinkme.io/api?api=${SHRINKME_TOKEN}&url=${encodeURIComponent(url)}&format=json`);
                 let data = await response.json();
                 
                 if (data.status === 'success' && data.shortenedUrl) {
@@ -329,11 +361,11 @@
             }
         }
 
-        function copyDirectLink() {
-            navigator.clipboard.writeText(directLinkURL).then(() => {
-                showToast('✅ Direct link copied!');
+        function copyShortenedLink() {
+            navigator.clipboard.writeText(shortenedLinkURL).then(() => {
+                showToast('✅ Shortened link copied!');
             }).catch(() => {
-                fallbackCopy(directLinkURL);
+                fallbackCopy(shortenedLinkURL);
             });
         }
 
@@ -341,7 +373,8 @@
             navigator.clipboard.writeText(monetizedLinkURL).then(() => {
                 showToast('✅ Monetized link copied! 💰');
             }).catch(() => {
-                fallbackCopy(monetizedLinkURL);            });
+                fallbackCopy(monetizedLinkURL);
+            });
         }
 
         function fallbackCopy(text) {
@@ -354,11 +387,10 @@
             showToast('✅ Link copied!');
         }
 
-        function showDirectQR() {
-            currentQRLink = directLinkURL;
-            displayQR('Direct Link QR Code');
+        function showShortenedQR() {
+            currentQRLink = shortenedLinkURL;
+            displayQR('Shortened Link QR Code');
         }
-
         function showMonetizedQR() {
             currentQRLink = monetizedLinkURL;
             displayQR('Monetized Link QR Code');
@@ -391,6 +423,7 @@
                 showToast('✅ QR downloaded!');
             }
         }
+
         function closeModal() {
             document.getElementById('resultModal').classList.add('hidden');
             document.getElementById('qrDisplay').classList.add('hidden');
@@ -406,5 +439,4 @@
 
     <!-- Social Bar Ad -->
     <script src="https://pl29819831.effectivecpmnetwork.com/40/ec/a6/40eca62ffa3dd47c9612d8d993c2924e.js"></script>
-</body>
-</html>
+</body></html>
