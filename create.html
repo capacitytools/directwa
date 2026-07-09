@@ -57,25 +57,25 @@
                         <option value="+20">🇪🇬 +20</option>
                         <option value="+27">🇿🇦 +27</option>
                         <option value="+30">🇬🇷 +30</option>
-                        <option value="+31">🇳 +31</option>
+                        <option value="+31">🇳🇱 +31</option>
                         <option value="+33">🇫🇷 +33</option>
-                        <option value="+34">🇪 +34</option>
+                        <option value="+34">🇪🇸 +34</option>
                         <option value="+39">🇮🇹 +39</option>
                         <option value="+44">🇬🇧 +44</option>
-                        <option value="+49">🇩 +49</option>
+                        <option value="+49">🇩🇪 +49</option>
                         <option value="+52">🇲🇽 +52</option>
                         <option value="+54">🇦🇷 +54</option>
-                        <option value="+55">🇧 +55</option>
+                        <option value="+55">🇧🇷 +55</option>
                         <option value="+60">🇲🇾 +60</option>
-                        <option value="+61">🇦 +61</option>
+                        <option value="+61">🇦🇺 +61</option>
                         <option value="+62">🇮🇩 +62</option>
                         <option value="+63">🇵🇭 +63</option>
-                        <option value="+65">🇸 +65</option>
+                        <option value="+65">🇸🇬 +65</option>
                         <option value="+66">🇹🇭 +66</option>
                         <option value="+81">🇯🇵 +81</option>
                         <option value="+82">🇰🇷 +82</option>
                         <option value="+84">🇻🇳 +84</option>
-                        <option value="+86">🇨 +86</option>
+                        <option value="+86">🇨🇳 +86</option>
                         <option value="+90">🇹🇷 +90</option>
                         <option value="+91">🇮🇳 +91</option>
                         <option value="+92">🇵🇰 +92</option>
@@ -85,7 +85,7 @@
                         <option value="+234" selected>🇳🇬 +234</option>
                         <option value="+237">🇨🇲 +237</option>
                         <option value="+254">🇰🇪 +254</option>
-                        <option value="+255">🇹 +255</option>
+                        <option value="+255">🇹🇿 +255</option>
                         <option value="+256">🇺🇬 +256</option>
                         <option value="+260">🇿🇲 +260</option>
                         <option value="+263">🇿🇼 +263</option>
@@ -117,8 +117,8 @@
                 
                 <p class="text-center text-gray-500">- or -</p>
                 
-                <button onclick="generateLink()" id="generateBtn" class="w-full wa-gradient text-white font-bold py-4 rounded-xl hover:opacity-90 transition flex items-center justify-center space-x-2">
-                    <span>Generate my wa.link</span>
+                <button onclick="generateLinks()" id="generateBtn" class="w-full wa-gradient text-white font-bold py-4 rounded-xl hover:opacity-90 transition flex items-center justify-center space-x-2">
+                    <span>Generate my links</span>
                     <span>😁</span>
                 </button>
             </div>
@@ -137,49 +137,76 @@
     <div id="resultModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">This is your WhatsApp short link</h2>
+                <h2 class="text-xl font-bold">Your Links are Ready!</h2>
                 <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
             
-            <p class="text-gray-600 mb-4">Copy and share it anywhere you want to be contacted instantly.</p>
+            <p class="text-gray-600 mb-6">Choose the link type that works best for you:</p>
             
-            <!-- Shortened Link -->
-            <div class="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-4">
-                <div class="flex items-center space-x-2 mb-2">                    <span class="text-2xl">📱</span>
-                    <p class="text-lg font-bold text-green-800 break-all" id="shortLink"></p>
+            <!-- Option 1: Clean Link -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">                    <h3 class="text-lg font-bold text-blue-600">✨ Clean Link (No Ads)</h3>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">FREE</span>
+                </div>
+                <div class="bg-blue-50 border-2 border-blue-500 rounded-xl p-4 mb-3">
+                    <p class="text-sm text-blue-800 font-mono break-all" id="cleanLink"></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="copyCleanLink()" class="flex-1 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition text-sm">
+                        📋 Copy
+                    </button>
+                    <button onclick="showCleanQR()" class="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg hover:bg-gray-300 transition text-sm">
+                        📱 QR Code
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Professional link with no ads. Perfect for business use.</p>
+            </div>
+
+            <!-- Divider -->
+            <div class="flex items-center my-6">
+                <div class="flex-1 border-t border-gray-300"></div>
+                <span class="px-4 text-gray-500 text-sm">OR</span>
+                <div class="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <!-- Option 2: Monetized Link -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-bold text-green-600">💰 Monetized Link</h3>
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">EARN MONEY</span>
+                </div>
+                <div class="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-3">
+                    <p class="text-sm text-green-800 font-mono break-all" id="monetizedLink"></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="copyMonetizedLink()" class="flex-1 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition text-sm">
+                        📋 Copy
+                    </button>
+                    <button onclick="showMonetizedQR()" class="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg hover:bg-gray-300 transition text-sm">
+                        📱 QR Code
+                    </button>
+                </div>
+                <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3 mt-3">
+                    <p class="text-xs text-yellow-800">
+                        💡 <strong>How it works:</strong> When people click this link, they'll see a quick 5-second ad before reaching your WhatsApp. <strong>You earn money for every click!</strong>
+                    </p>
                 </div>
             </div>
 
-            <!-- Premium Upsell -->
-            <div class="bg-green-50 border border-green-300 rounded-xl p-4 mb-4">
-                <p class="text-sm text-green-800 mb-2">
-                    Get a 👑 <u>Premium Plan</u> from <b>USD $6/year</b> to create wa.link(s) with:
-                </p>
-                <ul class="text-xs text-green-700 space-y-1">
-                    <li>✓ Branded link (wa.link/YourBusiness)</li>
-                    <li>✓ Edit phone, message and URL, anytime.</li>
-                    <li>✓ Analytics of clicks per hour, day or month</li>
-                    <li>✓ Access to Multilink page, Multiagent service</li>
-                </ul>
-                <button class="mt-3 bg-black text-white px-4 py-2 rounded-full text-sm font-bold">
-                    👑 Get Premium
+            <!-- QR Code Display -->
+            <div id="qrDisplay" class="hidden bg-gray-50 rounded-xl p-4 mb-4">                <h4 class="font-bold text-center mb-3" id="qrTitle">QR Code</h4>
+                <div class="flex justify-center mb-3">
+                    <div id="qrCode" class="bg-white p-2 rounded-lg"></div>
+                </div>
+                <button onclick="downloadQR()" class="w-full bg-gray-800 text-white font-semibold py-2 rounded-lg hover:bg-gray-900 transition text-sm">
+                    ⬇️ Download QR Code
                 </button>
             </div>
 
-            <!-- QR Code -->
-            <div class="flex justify-center mb-4">
-                <div id="qrCode" class="bg-white p-2 rounded-lg"></div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex space-x-3">
-                <button onclick="copyLink()" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition">
-                    Copy link
-                </button>
-                <button onclick="downloadQR()" class="flex-1 bg-gray-200 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-300 transition">
-                    Download QR
-                </button>
-            </div>
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-300 transition">
+                Close
+            </button>
         </div>
     </div>
 
@@ -194,7 +221,8 @@
                     'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
                     'format' : 'iframe',
                     'height' : 50,
-                    'width' : 320,                    'params' : {}
+                    'width' : 320,
+                    'params' : {}
                 };
             </script>
             <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
@@ -202,8 +230,9 @@
     </div>
 
     <script>
-        let currentDirectLink = '';
-        let shortenedLink = '';
+        let cleanLinkURL = '';
+        let monetizedLinkURL = '';
+        let currentQRLink = '';
 
         function showToast(message) {
             let toast = document.getElementById("toast");
@@ -214,8 +243,7 @@
 
         function showPreview() {
             let code = document.getElementById('countryCode').value;
-            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
-            let msg = document.getElementById('message').value;
+            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');            let msg = document.getElementById('message').value;
             
             if (!phone) {
                 alert('Please enter a phone number');
@@ -232,7 +260,7 @@
             document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function generateLink() {
+        async function generateLinks() {
             let code = document.getElementById('countryCode').value;
             let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
             let msg = document.getElementById('message').value;
@@ -243,80 +271,126 @@
             }
             
             // Build WhatsApp URL
-            currentDirectLink = `https://wa.me/${code}${phone}`;            if (msg) {
-                currentDirectLink += `?text=${encodeURIComponent(msg)}`;
+            let whatsappURL = `https://wa.me/${code}${phone}`;
+            if (msg) {
+                whatsappURL += `?text=${encodeURIComponent(msg)}`;
             }
             
             let btn = document.getElementById('generateBtn');
             let originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="loading">Generating link...</span>';
+            btn.innerHTML = '<span class="loading">⏳ Generating links...</span>';
             btn.disabled = true;
             
             try {
-                // Call ShrinkMe.io API
-                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
-                let apiUrl = `https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(currentDirectLink)}&format=json`;
+                // Generate both links in parallel
+                let [cleanResult, monetizedResult] = await Promise.all([
+                    generateCleanLink(whatsappURL),
+                    generateMonetizedLink(whatsappURL)
+                ]);
                 
-                let response = await fetch(apiUrl);
-                let data = await response.json();
+                cleanLinkURL = cleanResult;
+                monetizedLinkURL = monetizedResult;
                 
-                console.log('ShrinkMe Response:', data);
+                // Display results
+                document.getElementById('cleanLink').textContent = cleanLinkURL;                document.getElementById('monetizedLink').textContent = monetizedLinkURL;
                 
-                if (data.status === 'success' && data.shortenedUrl) {
-                    shortenedLink = data.shortenedUrl;
-                    showResult();
-                } else {
-                    // Fallback: use direct link
-                    shortenedLink = currentDirectLink;
-                    showResult();
-                    showToast('Using direct link (API error)');
-                }
+                document.getElementById('resultModal').classList.remove('hidden');
                 
             } catch (error) {
                 console.error('Error:', error);
-                // Fallback to direct link
-                shortenedLink = currentDirectLink;
-                showResult();
-                showToast('Using direct link (connection error)');
+                alert('Error generating links. Please try again.');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
-        function showResult() {
-            document.getElementById('shortLink').textContent = shortenedLink;
-            
-            // Generate QR code
-            document.getElementById('qrCode').innerHTML = '';
-            new QRCode(document.getElementById('qrCode'), {
-                text: shortenedLink,
-                width: 200,
-                height: 200,                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-            
-            document.getElementById('resultModal').classList.remove('hidden');
+        async function generateCleanLink(url) {
+            try {
+                // Use is.gd (free, no ads, no API key needed)
+                let response = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`);
+                let shortURL = await response.text();
+                
+                if (shortURL && shortURL.startsWith('http')) {
+                    return shortURL.trim();
+                } else {
+                    throw new Error('Invalid response');
+                }
+            } catch (error) {
+                console.error('Clean link error:', error);
+                // Fallback: return original URL
+                return url;
+            }
         }
 
-        function closeModal() {
-            document.getElementById('resultModal').classList.add('hidden');
+        async function generateMonetizedLink(url) {
+            try {
+                // Use ShrinkMe.io (monetized, earns money)
+                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
+                let response = await fetch(`https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(url)}&format=json`);
+                let data = await response.json();
+                
+                if (data.status === 'success' && data.shortenedUrl) {
+                    return data.shortenedUrl;
+                } else {
+                    throw new Error('API error');
+                }
+            } catch (error) {
+                console.error('Monetized link error:', error);
+                // Fallback: return original URL
+                return url;
+            }
         }
-
-        function copyLink() {
-            navigator.clipboard.writeText(shortenedLink).then(() => {
-                showToast('✅ Link copied!');
+        function copyCleanLink() {
+            navigator.clipboard.writeText(cleanLinkURL).then(() => {
+                showToast('✅ Clean link copied!');
             }).catch(() => {
-                // Fallback
-                let tempInput = document.createElement('input');
-                tempInput.value = shortenedLink;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                showToast('✅ Link copied!');
+                fallbackCopy(cleanLinkURL);
             });
+        }
+
+        function copyMonetizedLink() {
+            navigator.clipboard.writeText(monetizedLinkURL).then(() => {
+                showToast('✅ Monetized link copied! 💰');
+            }).catch(() => {
+                fallbackCopy(monetizedLinkURL);
+            });
+        }
+
+        function fallbackCopy(text) {
+            let tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('✅ Link copied!');
+        }
+
+        function showCleanQR() {
+            currentQRLink = cleanLinkURL;
+            displayQR('Clean Link QR Code');
+        }
+
+        function showMonetizedQR() {
+            currentQRLink = monetizedLinkURL;
+            displayQR('Monetized Link QR Code');
+        }
+
+        function displayQR(title) {
+            document.getElementById('qrTitle').textContent = title;
+            document.getElementById('qrCode').innerHTML = '';
+            
+            new QRCode(document.getElementById('qrCode'), {
+                text: currentQRLink,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            document.getElementById('qrDisplay').classList.remove('hidden');            document.getElementById('qrDisplay').scrollIntoView({ behavior: 'smooth' });
         }
 
         function downloadQR() {
@@ -326,8 +400,13 @@
                 link.download = 'whatsapp-qr.png';
                 link.href = qrCanvas.toDataURL();
                 link.click();
-                showToast('QR downloaded!');
+                showToast('✅ QR downloaded!');
             }
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.add('hidden');
+            document.getElementById('qrDisplay').classList.add('hidden');
         }
 
         // Close modal on outside click
