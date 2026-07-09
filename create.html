@@ -53,9 +53,6 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col pb-20">
 
-    <!-- ADSTERRA POPUNDER -->
-    <script src="https://pl29820228.effectivecpmnetwork.com/7f/63/83/7f638315da085a860c6d66deecc31bcd.js"></script>
-
     <!-- Navigation -->
     <nav class="wa-gradient shadow-lg sticky top-0 z-40">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -96,10 +93,10 @@
                         <textarea id="createMessage" rows="3" placeholder="Hello, I'm interested in your services..." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green outline-none resize-none"></textarea>
                     </div>
 
-                    <div>                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Your Name/Business (Optional)</label>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Your Name/Business (Optional)</label>
                         <input type="text" id="createName" placeholder="John Doe or ABC Company" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green outline-none">
-                    </div>
-                </div>
+                    </div>                </div>
 
                 <!-- Generate Button -->
                 <button onclick="generateDirectLink()" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-90 transition">
@@ -145,10 +142,10 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
                         <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
-                            <div>
+                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>                            <div>
                                 <h3 class="font-bold text-gray-800 dark:text-white mb-2">Add a Pre-filled Message (Optional)</h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Type a message that will automatically appear when someone clicks your link. Great for greetings or specific inquiries.</p>
                             </div>
@@ -194,12 +191,12 @@
                     <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
                         <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">🏢 Businesses</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Add to your website, Google My Business, or email signatures for instant customer support.</p>
-                    </div>                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">📱 Social Media</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Perfect for Instagram bio, Facebook page, TikTok, or Twitter profile.</p>
                     </div>
                     <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">🛒 E-commerce</h3>
+                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">📱 Social Media</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Perfect for Instagram bio, Facebook page, TikTok, or Twitter profile.</p>                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
+                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2"> E-commerce</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Let customers message you directly about products, orders, or inquiries.</p>
                     </div>
                     <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
@@ -243,10 +240,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12 py-6 text-center">        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12 py-6 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
         <a href="index.html" class="text-sm text-green-600 dark:text-green-400 hover:underline mt-2 inline-block">← Back to Direct Message</a>
     </footer>
-
     <!-- ADSTERRA 320x50 BANNER -->
     <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg flex justify-center py-1">
         <script>
@@ -292,10 +289,10 @@
         }
 
         function generateDirectLink() {
-            let phone = document.getElementById('createPhone').value.replace(/\D/g, '');            let msg = document.getElementById('createMessage').value;
+            let phone = document.getElementById('createPhone').value.replace(/\D/g, '');
+            let msg = document.getElementById('createMessage').value;
             
-            if (!phone) {
-                alert('Please enter your phone number');
+            if (!phone) {                alert('Please enter your phone number');
                 return;
             }
             
