@@ -1,35 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#25D366">
-    <meta name="description" content="Create permanent WhatsApp direct links like wa.me for your business">
-    <title>Create Direct Link - DirectWa</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Create WhatsApp Link - DirectWa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'wa-green': '#25D366',
-                        'wa-dark': '#128C7E',
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
         .wa-gradient { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
-        .dark .wa-gradient { background: linear-gradient(135deg, #128C7E 0%, #075E54 100%); }
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -47,239 +26,184 @@
         #toast.show {
             visibility: visible;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
+        }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        .loading { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col pb-20">
+<body class="bg-gray-50 min-h-screen pb-20">
 
-    <!-- Navigation -->
-    <nav class="wa-gradient shadow-lg sticky top-0 z-40">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                    <span class="text-green-600 font-extrabold text-lg">DW</span>
+    <!-- Header -->
+    <div class="wa-gradient text-white p-4 text-center">
+        <a href="index.html" class="text-2xl font-bold">← DirectWa</a>
+    </div>
+
+    <!-- Main Form -->
+    <div class="max-w-2xl mx-auto p-4 mt-6">
+        
+        <h1 class="text-3xl font-bold text-center mb-2">Create your free link here</h1>
+        <p class="text-gray-600 text-center mb-8">Generate a WhatsApp direct link for your business</p>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+                        <!-- Phone Number with Country Code -->
+            <div>
+                <label class="block text-sm font-semibold mb-2">Type your WhatsApp phone number</label>
+                <div class="flex space-x-2">
+                    <select id="countryCode" class="px-4 py-3 border-2 border-gray-200 rounded-xl bg-white font-bold text-center">
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+7">🇷🇺 +7</option>
+                        <option value="+20">🇪🇬 +20</option>
+                        <option value="+27">🇿🇦 +27</option>
+                        <option value="+30">🇬🇷 +30</option>
+                        <option value="+31">🇳 +31</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+34">🇪 +34</option>
+                        <option value="+39">🇮🇹 +39</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+49">🇩 +49</option>
+                        <option value="+52">🇲🇽 +52</option>
+                        <option value="+54">🇦🇷 +54</option>
+                        <option value="+55">🇧 +55</option>
+                        <option value="+60">🇲🇾 +60</option>
+                        <option value="+61">🇦 +61</option>
+                        <option value="+62">🇮🇩 +62</option>
+                        <option value="+63">🇵🇭 +63</option>
+                        <option value="+65">🇸 +65</option>
+                        <option value="+66">🇹🇭 +66</option>
+                        <option value="+81">🇯🇵 +81</option>
+                        <option value="+82">🇰🇷 +82</option>
+                        <option value="+84">🇻🇳 +84</option>
+                        <option value="+86">🇨 +86</option>
+                        <option value="+90">🇹🇷 +90</option>
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+92">🇵🇰 +92</option>
+                        <option value="+212">🇲🇦 +212</option>
+                        <option value="+213">🇩🇿 +213</option>
+                        <option value="+233">🇬🇭 +233</option>
+                        <option value="+234" selected>🇳🇬 +234</option>
+                        <option value="+237">🇨🇲 +237</option>
+                        <option value="+254">🇰🇪 +254</option>
+                        <option value="+255">🇹 +255</option>
+                        <option value="+256">🇺🇬 +256</option>
+                        <option value="+260">🇿🇲 +260</option>
+                        <option value="+263">🇿🇼 +263</option>
+                        <option value="+351">🇵🇹 +351</option>
+                        <option value="+353">🇮🇪 +353</option>
+                        <option value="+358">🇫🇮 +358</option>
+                        <option value="+380">🇺🇦 +380</option>
+                        <option value="+420">🇨🇿 +420</option>
+                        <option value="+966">🇸🇦 +966</option>
+                        <option value="+971">🇦🇪 +971</option>
+                        <option value="+974">🇶🇦 +974</option>                    </select>
+                    <input type="tel" id="phoneNumber" placeholder="Your phone number here" class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl">
                 </div>
-                <span class="text-white font-bold text-xl">DirectWa</span>
-            </a>
-            <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-white text-lg">
-                🌙
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="flex-grow px-4 py-8">
-        <div class="max-w-3xl mx-auto">
-            
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Create Direct WhatsApp Link</h1>
-                <p class="text-gray-600 dark:text-gray-300">Generate a permanent link like wa.me for your business or profile</p>
+                <p class="text-xs text-gray-500 mt-1">Remember to check your country code</p>
             </div>
 
-            <!-- Form Card -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
-                
-                <!-- Input Fields -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Phone Number (with country code)</label>
-                        <input type="tel" id="createPhone" placeholder="+2347033143508" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green outline-none">
-                    </div>
+            <!-- Custom Message -->
+            <div>
+                <label class="block text-sm font-semibold mb-2">Custom message</label>
+                <textarea id="message" rows="3" placeholder="Add a custom message that users will send to you" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl resize-none"></textarea>
+                <p class="text-xs text-gray-500 mt-1">Example: "Hello, I want more info about the product"</p>
+            </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Pre-filled Message (Optional)</label>
-                        <textarea id="createMessage" rows="3" placeholder="Hello, I'm interested in your services..." class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green outline-none resize-none"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Your Name/Business (Optional)</label>
-                        <input type="text" id="createName" placeholder="John Doe or ABC Company" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-wa-green outline-none">
-                    </div>                </div>
-
-                <!-- Generate Button -->
-                <button onclick="generateDirectLink()" class="w-full wa-gradient text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-90 transition">
-                    🔗 Generate Direct Link
+            <!-- Buttons -->
+            <div class="space-y-3">
+                <button onclick="showPreview()" class="w-full bg-gray-200 text-gray-800 font-bold py-4 rounded-xl hover:bg-gray-300 transition">
+                    Preview
                 </button>
-
-                <!-- Result Section (Hidden by default) -->
-                <div id="resultSection" class="hidden space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <div class="bg-green-50 dark:bg-green-900/20 border-2 border-green-500 p-4 rounded-xl">
-                        <p class="text-sm text-green-700 dark:text-green-400 font-semibold mb-2">Your Direct Link:</p>
-                        <input type="text" id="directLinkInput" readonly class="w-full bg-white dark:bg-gray-700 px-3 py-2 rounded-lg text-sm break-all font-mono">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="copyDirectLink()" class="bg-green-500 text-white font-semibold py-3 rounded-xl hover:bg-green-600 transition">
-                            📋 Copy Link
-                        </button>
-                        <button onclick="showDirectQR()" class="bg-purple-500 text-white font-semibold py-3 rounded-xl hover:bg-purple-600 transition">
-                            📱 Show QR Code
-                        </button>
-                    </div>
-
-                    <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl">
-                        <p class="text-sm text-blue-700 dark:text-blue-400 text-center">
-                            💡 Share this link on your website, social media, or business cards!<br>
-                            When people click it, they'll instantly open a WhatsApp chat with you.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- How to Use Section -->
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">How to Create & Use Your Direct Link</h2>
                 
-                <div class="space-y-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
-                            <div>
-                                <h3 class="font-bold text-gray-800 dark:text-white mb-2">Enter Your Phone Number</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Type your WhatsApp number with country code (e.g., +2347033143508 for Nigeria). Don't include spaces or dashes.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>                            <div>
-                                <h3 class="font-bold text-gray-800 dark:text-white mb-2">Add a Pre-filled Message (Optional)</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Type a message that will automatically appear when someone clicks your link. Great for greetings or specific inquiries.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
-                            <div>
-                                <h3 class="font-bold text-gray-800 dark:text-white mb-2">Generate Your Link</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Click the "Generate Direct Link" button. We'll create a unique wa.me link just for you.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
-                            <div>
-                                <h3 class="font-bold text-gray-800 dark:text-white mb-2">Copy & Share</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Copy your link and share it anywhere: Instagram bio, Facebook, Twitter, email signature, business cards, or your website.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">5</div>
-                            <div>
-                                <h3 class="font-bold text-gray-800 dark:text-white mb-2">Start Receiving Messages</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">When people click your link, WhatsApp will open automatically with your number and pre-filled message ready to send!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p class="text-center text-gray-500">- or -</p>
+                
+                <button onclick="generateLink()" id="generateBtn" class="w-full wa-gradient text-white font-bold py-4 rounded-xl hover:opacity-90 transition flex items-center justify-center space-x-2">
+                    <span>Generate my wa.link</span>
+                    <span>😁</span>
+                </button>
             </div>
-
-            <!-- Use Cases -->
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6">Perfect For:</h2>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">🏢 Businesses</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Add to your website, Google My Business, or email signatures for instant customer support.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">📱 Social Media</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Perfect for Instagram bio, Facebook page, TikTok, or Twitter profile.</p>                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2"> E-commerce</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Let customers message you directly about products, orders, or inquiries.</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md">
-                        <h3 class="font-bold text-green-600 dark:text-green-400 mb-2">👤 Freelancers</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Share with clients for easy communication without sharing your personal number.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ADSTERRA NATIVE BANNER -->
-            <div class="mt-8 flex justify-center">
-                <div id="container-31f16fc7913263f00e93a85356f6e7d6"></div>
-            </div>
-
-            <!-- ADSTERRA 300x250 BANNER -->
-            <div class="mt-6 flex justify-center">
-                <div class="bg-white dark:bg-gray-800 p-2 rounded-2xl shadow-sm">
-                    <script>
-                        atOptions = {
-                            'key' : '265a3e3f0e948dc63fad891d2f0216ac',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/265a3e3f0e948dc63fad891d2f0216ac/invoke.js"></script>
-                </div>
-            </div>
-
         </div>
-    </main>
 
-    <!-- QR Code Modal -->
-    <div id="qrModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-sm w-full text-center space-y-4">
-            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Scan QR Code</h3>
-            <div id="directQRCode" class="flex justify-center bg-white p-4 rounded-xl"></div>
-            <button onclick="closeDirectQR()" class="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl">Close</button>
+        <!-- Preview Section -->
+        <div id="previewSection" class="hidden mt-6 bg-white rounded-2xl shadow-lg p-6">
+            <h3 class="text-lg font-bold mb-4">Preview:</h3>
+            <div class="bg-green-50 border-2 border-green-500 rounded-xl p-4">
+                <p class="text-sm text-green-800 font-mono break-all" id="previewLink"></p>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12 py-6 text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-400">Fast, Free & Secure. Not affiliated with WhatsApp Inc.</p>
-        <a href="index.html" class="text-sm text-green-600 dark:text-green-400 hover:underline mt-2 inline-block">← Back to Direct Message</a>
-    </footer>
-    <!-- ADSTERRA 320x50 BANNER -->
-    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg flex justify-center py-1">
-        <script>
-            atOptions = {
-                'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
-                'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
-                'params' : {}
-            };
-        </script>
-        <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
+    <!-- Result Modal -->
+    <div id="resultModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">This is your WhatsApp short link</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            
+            <p class="text-gray-600 mb-4">Copy and share it anywhere you want to be contacted instantly.</p>
+            
+            <!-- Shortened Link -->
+            <div class="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-4">
+                <div class="flex items-center space-x-2 mb-2">                    <span class="text-2xl">📱</span>
+                    <p class="text-lg font-bold text-green-800 break-all" id="shortLink"></p>
+                </div>
+            </div>
+
+            <!-- Premium Upsell -->
+            <div class="bg-green-50 border border-green-300 rounded-xl p-4 mb-4">
+                <p class="text-sm text-green-800 mb-2">
+                    Get a 👑 <u>Premium Plan</u> from <b>USD $6/year</b> to create wa.link(s) with:
+                </p>
+                <ul class="text-xs text-green-700 space-y-1">
+                    <li>✓ Branded link (wa.link/YourBusiness)</li>
+                    <li>✓ Edit phone, message and URL, anytime.</li>
+                    <li>✓ Analytics of clicks per hour, day or month</li>
+                    <li>✓ Access to Multilink page, Multiagent service</li>
+                </ul>
+                <button class="mt-3 bg-black text-white px-4 py-2 rounded-full text-sm font-bold">
+                    👑 Get Premium
+                </button>
+            </div>
+
+            <!-- QR Code -->
+            <div class="flex justify-center mb-4">
+                <div id="qrCode" class="bg-white p-2 rounded-lg"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-3">
+                <button onclick="copyLink()" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition">
+                    Copy link
+                </button>
+                <button onclick="downloadQR()" class="flex-1 bg-gray-200 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-300 transition">
+                    Download QR
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Toast -->
     <div id="toast">Copied!</div>
 
-    <!-- ADSTERRA SOCIAL BAR -->
-    <script src="https://pl29819831.effectivecpmnetwork.com/40/ec/a6/40eca62ffa3dd47c9612d8d993c2924e.js"></script>
+    <!-- Ads -->
+    <div class="max-w-md mx-auto mt-6">
+        <div class="bg-white rounded-xl p-2 text-center">
+            <script>
+                atOptions = {
+                    'key' : '90fd5bebbb6299ffe5d07b8a539064d0',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/90fd5bebbb6299ffe5d07b8a539064d0/invoke.js"></script>
+        </div>
+    </div>
 
     <script>
-        // Dark Mode
-        function toggleDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        }
-        if (localStorage.theme === 'dark') {
-            document.documentElement.classList.add('dark');
-        }
-
         let currentDirectLink = '';
+        let shortenedLink = '';
 
         function showToast(message) {
             let toast = document.getElementById("toast");
@@ -288,47 +212,133 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        function generateDirectLink() {
-            let phone = document.getElementById('createPhone').value.replace(/\D/g, '');
-            let msg = document.getElementById('createMessage').value;
+        function showPreview() {
+            let code = document.getElementById('countryCode').value;
+            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
+            let msg = document.getElementById('message').value;
             
-            if (!phone) {                alert('Please enter your phone number');
+            if (!phone) {
+                alert('Please enter a phone number');
                 return;
             }
             
-            currentDirectLink = `https://wa.me/${phone}`;
+            let url = `https://wa.me/${code}${phone}`;
             if (msg) {
+                url += `?text=${encodeURIComponent(msg)}`;
+            }
+            
+            document.getElementById('previewLink').textContent = url;
+            document.getElementById('previewSection').classList.remove('hidden');
+            document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function generateLink() {
+            let code = document.getElementById('countryCode').value;
+            let phone = document.getElementById('phoneNumber').value.replace(/\D/g, '');
+            let msg = document.getElementById('message').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            // Build WhatsApp URL
+            currentDirectLink = `https://wa.me/${code}${phone}`;            if (msg) {
                 currentDirectLink += `?text=${encodeURIComponent(msg)}`;
             }
             
-            document.getElementById('directLinkInput').value = currentDirectLink;
-            document.getElementById('resultSection').classList.remove('hidden');
-            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+            let btn = document.getElementById('generateBtn');
+            let originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="loading">Generating link...</span>';
+            btn.disabled = true;
+            
+            try {
+                // Call ShrinkMe.io API
+                let apiKey = '8b061096284143bace60e6b73ff7081c57dc0325';
+                let apiUrl = `https://shrinkme.io/api?api=${apiKey}&url=${encodeURIComponent(currentDirectLink)}&format=json`;
+                
+                let response = await fetch(apiUrl);
+                let data = await response.json();
+                
+                console.log('ShrinkMe Response:', data);
+                
+                if (data.status === 'success' && data.shortenedUrl) {
+                    shortenedLink = data.shortenedUrl;
+                    showResult();
+                } else {
+                    // Fallback: use direct link
+                    shortenedLink = currentDirectLink;
+                    showResult();
+                    showToast('Using direct link (API error)');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                // Fallback to direct link
+                shortenedLink = currentDirectLink;
+                showResult();
+                showToast('Using direct link (connection error)');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
 
-        function copyDirectLink() {
-            let input = document.getElementById('directLinkInput');
-            input.select();
-            document.execCommand('copy');
-            showToast('✅ Link copied!');
-        }
-
-        function showDirectQR() {
-            document.getElementById('directQRCode').innerHTML = '';
-            new QRCode(document.getElementById('directQRCode'), {
-                text: currentDirectLink,
+        function showResult() {
+            document.getElementById('shortLink').textContent = shortenedLink;
+            
+            // Generate QR code
+            document.getElementById('qrCode').innerHTML = '';
+            new QRCode(document.getElementById('qrCode'), {
+                text: shortenedLink,
                 width: 200,
-                height: 200
+                height: 200,                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
             });
-            document.getElementById('qrModal').classList.remove('hidden');
+            
+            document.getElementById('resultModal').classList.remove('hidden');
         }
 
-        function closeDirectQR() {
-            document.getElementById('qrModal').classList.add('hidden');
+        function closeModal() {
+            document.getElementById('resultModal').classList.add('hidden');
         }
+
+        function copyLink() {
+            navigator.clipboard.writeText(shortenedLink).then(() => {
+                showToast('✅ Link copied!');
+            }).catch(() => {
+                // Fallback
+                let tempInput = document.createElement('input');
+                tempInput.value = shortenedLink;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showToast('✅ Link copied!');
+            });
+        }
+
+        function downloadQR() {
+            let qrCanvas = document.querySelector('#qrCode canvas');
+            if (qrCanvas) {
+                let link = document.createElement('a');
+                link.download = 'whatsapp-qr.png';
+                link.href = qrCanvas.toDataURL();
+                link.click();
+                showToast('QR downloaded!');
+            }
+        }
+
+        // Close modal on outside click
+        document.getElementById('resultModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
     </script>
 
-    <!-- ADSTERRA NATIVE SCRIPT -->
-    <script async="async" data-cfasync="false" src="https://pl29820186.effectivecpmnetwork.com/31f16fc7913263f00e93a85356f6e7d6/invoke.js"></script>
+    <!-- Social Bar Ad -->
+    <script src="https://pl29819831.effectivecpmnetwork.com/40/ec/a6/40eca62ffa3dd47c9612d8d993c2924e.js"></script>
 </body>
 </html>
